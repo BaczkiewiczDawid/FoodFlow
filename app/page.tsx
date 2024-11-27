@@ -1,6 +1,7 @@
 import Image from "next/image"
 import HeroImage from "@/app/assets/images/undraw_breakfast_psiw.svg"
 import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function Index() {
     return (
@@ -11,7 +12,9 @@ export default async function Index() {
                 <p className={"mt-4"}>Start for free now!</p>
                 <Image className={"w-3/4 mt-12"} src={HeroImage} alt={"Hero image"}/>
                 <div className={"mt-12 flex justify-center items-center flex-col"}>
-                    <Button className={"px-8"}>Join now!</Button>
+                    <Link href={"/sign-up"}>
+                        <Button className={"px-8"}>Join now!</Button>
+                    </Link>
                     <Button variant={"link"} className={"mt-2"}>Already have an account? Login now</Button>
                 </div>
             </div>
