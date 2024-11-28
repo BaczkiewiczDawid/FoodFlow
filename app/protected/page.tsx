@@ -69,23 +69,30 @@ export default async function ProtectedPage() {
     ]
 
     return (
-        <div className="flex-1 w-full flex flex-col gap-12">
-            <h1 className={"font-normal"}>Hello, <p className={"font-bold"}>{user.email}</p></h1>
-            <div className={"grid grid-cols-2 gap-x-4 gap-y-8 w-[90%]"}>
-                <MacroChart data={data} name={"Kcal"}/>
-                <MacroChart data={data} name={"Carbs"}/>
-                <MacroChart data={data} name={"Protein"}/>
-                <MacroChart data={data} name={"Fat"}/>
+        <div className="flex-1 w-full flex flex-col gap-12 lg:flex-row lg:justify-between lg:p-12">
+            <div className={"lg:w-1/2"}>
+                <h1 className={"font-normal text-2xl lg:text-xl"}>Hello, <p className={"font-bold"}>{user.email}</p>
+                </h1>
+                <p className={"mt-4 lg:mt-12"}>Today, You've eaten</p>
+                <div className={"grid grid-cols-2 gap-x-4 gap-y-8 w-[90%] lg:grid-cols-4 lg:mt-4"}>
+                    <MacroChart data={data} name={"Kcal"}/>
+                    <MacroChart data={data} name={"Carbs"}/>
+                    <MacroChart data={data} name={"Protein"}/>
+                    <MacroChart data={data} name={"Fat"}/>
+                </div>
             </div>
-            <h2 className={"font-bold text-xl"}>Your next meal</h2>
-            <div className={"flex flex-col gap-y-4"}>
-                {meals.map((meal) => {
-                    return (
-                        <MealCard id={meal.id} name={meal.name} ingredients={meal.ingredients} macros={meal.macros}/>
-                    )
-                })}
-                <div className={"w-full bg-gray-700 rounded"}></div>
-                <div className={"w-full bg-gray-700 rounded"}></div>
+            <div className={"lg:w-1/2"}>
+                <h2 className={"font-bold text-xl"}>Your next meal</h2>
+                <div className={"flex flex-col gap-y-4 lg:mt-8"}>
+                    {meals.map((meal) => {
+                        return (
+                            <MealCard id={meal.id} name={meal.name} ingredients={meal.ingredients}
+                                      macros={meal.macros}/>
+                        )
+                    })}
+                    <div className={"w-full bg-gray-700 rounded"}></div>
+                    <div className={"w-full bg-gray-700 rounded"}></div>
+                </div>
             </div>
         </div>
     );
