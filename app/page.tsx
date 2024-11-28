@@ -1,5 +1,5 @@
 import Image from "next/image"
-import HeroImage from "@/app/assets/images/undraw_breakfast_psiw.svg"
+import HeroImage from "@/public/hero-image.svg"
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 
