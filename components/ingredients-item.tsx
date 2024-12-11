@@ -14,7 +14,7 @@ export const IngredientsItem = ({name, amount, type}: Props) => {
     }
 
     return (
-        <div>
+        <div key={name}>
             {type === "grammage" ? (
                 <li>{name} - {amount}g</li>
             ) : (
