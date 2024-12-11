@@ -15,7 +15,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "../ui/sidebar"
 import Link from "next/link";
 
 export const Navigation = () => {
