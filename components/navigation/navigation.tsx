@@ -1,4 +1,5 @@
 import {
+    ArrowLeftEndOnRectangleIcon,
     BuildingStorefrontIcon,
     CalendarDaysIcon,
     ClipboardDocumentListIcon, Cog6ToothIcon,
@@ -15,6 +16,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import Link from "next/link";
 
 export const Navigation = () => {
     const navigationItems = [
@@ -25,22 +27,22 @@ export const Navigation = () => {
         },
         {
             title: "Meals list",
-            url: "/meals",
+            url: "protected/meals",
             icon: ClipboardDocumentListIcon,
         },
         {
             title: "Calendar",
-            url: "/calendar",
+            url: "protected/calendar",
             icon: CalendarDaysIcon,
         },
         {
             title: "My ingredients",
-            url: "/ingredients",
+            url: "protected/ingredients",
             icon: BuildingStorefrontIcon,
         },
         {
             title: "Settings",
-            url: "/settings",
+            url: "protected/settings",
             icon: Cog6ToothIcon,
         }
     ]
@@ -55,10 +57,10 @@ export const Navigation = () => {
                             {navigationItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                        <Link href={item.url}>
                                             <item.icon/>
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
@@ -70,7 +72,10 @@ export const Navigation = () => {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton>
-                            <span className={"text-red-500"}>Log out</span>
+                            <Link href={"/logout"}>
+                                <ArrowLeftEndOnRectangleIcon className={"h-6 w-6 text-red-500"}/>
+                                <span className={"text-red-500"}>Log out</span>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
