@@ -14,7 +14,7 @@ type Props = {
 
 export const MealCard = ({id, name, ingredients, macros}: Props) => {
     return (
-        <Link href={`/protected/meal-details/${id}`} key={id}>
+        <Link href={`/(protected)/meal-details/${id}`} key={id}>
             <div className={"w-full bg-gray-700 rounded p-2 flex flex-col"}>
                 <span>{name}</span>
                 <span className={"font-light text-sm"}>{ingredients.join(" | ")}</span>
