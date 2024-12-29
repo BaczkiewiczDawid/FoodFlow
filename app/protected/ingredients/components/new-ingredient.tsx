@@ -12,18 +12,19 @@ import {
 } from "@/components/ui/dialog"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
+import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export const NewIngredient = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Edit Profile</Button>
+                <Button variant="outline">Add ingredient</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogTitle>Add ingredient</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when you're done.
+                        Add a new ingredient to Your list.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -33,19 +34,37 @@ export const NewIngredient = () => {
                         </Label>
                         <Input
                             id="name"
-                            defaultValue="Pedro Duarte"
                             className="col-span-3"
+                            placeholder={"Chicken..."}
                         />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username" className="text-right">
-                            Username
+                        <Label htmlFor="quantity" className="text-right">
+                            Quantity
                         </Label>
-                        <Input
-                            id="username"
-                            defaultValue="@peduarte"
-                            className="col-span-3"
-                        />
+                        <div className="flex items-center gap-2 col-span-3">
+                            <Input
+                                id="quantity"
+                                placeholder="42..."
+                                type={"number"}
+                                className="flex-grow"
+                            />
+                            <Select defaultValue={"piece"}>
+                                <SelectTrigger>
+                                    <SelectValue/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem className="cursor-pointer" value={"grammage"}>
+                                            Grammage
+                                        </SelectItem>
+                                        <SelectItem className="cursor-pointer" value={"piece"}>
+                                            Piece
+                                        </SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                 </div>
                 <DialogFooter>
