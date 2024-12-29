@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
 
         const data = addNewIngredient(paramsObject)
 
-        return NextResponse.json({message: "Ingredient added successfully"})
+        return NextResponse.json({message: "Ingredient added successfully", data: data})
     } catch (err) {
         return NextResponse.json({error: "Error"}, {status: 500})
     }

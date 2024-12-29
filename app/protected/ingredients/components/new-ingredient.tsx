@@ -13,7 +13,7 @@ import {
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useApi} from "@/helpers/useApi";
 
 export const NewIngredient = () => {
@@ -21,23 +21,34 @@ export const NewIngredient = () => {
     const [name, setName] = useState<string>("");
     const [quantity, setQuantity] = useState<number>(0);
     const [type, setType] = useState<string>("grammage");
+    const [isLoading, setLoading] = useState<boolean>(false)
 
     const email = "baczkiewicz.dawid22@gmail.com"
 
-    const addNewIngredient = () => {
-        console.log("Add new ingredient")
+    const addNewIngredient = async () => {
         if (!name || !quantity || !type) {
-            return
+            return;
         }
 
-        const response = useApi("/api/ingredients/new-ingredient", {
+        setLoading(true);
+        try {
+            const response = await fetchData();
+            console.log("Response:", response);
+            setIsOpen(false);
+        } catch (err) {
+            console.error("Error:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchData = async () => {
+        return useApi("/api/ingredients/new-ingredient", {
             name,
             quantity,
             type,
             email
         })
-
-        setIsOpen(false)
     }
 
     return (
