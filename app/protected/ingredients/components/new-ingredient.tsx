@@ -13,11 +13,36 @@ import {
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {useState} from "react";
+import {useApi} from "@/helpers/useApi";
 
 export const NewIngredient = () => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [name, setName] = useState<string>("");
+    const [quantity, setQuantity] = useState<number>(0);
+    const [type, setType] = useState<string>("grammage");
+
+    const email = "baczkiewicz.dawid22@gmail.com"
+
+    const addNewIngredient = () => {
+        console.log("Add new ingredient")
+        if (!name || !quantity || !type) {
+            return
+        }
+
+        const response = useApi("/api/ingredients/new-ingredient", {
+            name,
+            quantity,
+            type,
+            email
+        })
+
+        setIsOpen(false)
+    }
+
     return (
-        <Dialog>
-            <DialogTrigger asChild>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger className={"mt-4 ml-4"} asChild>
                 <Button variant="outline">Add ingredient</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
@@ -36,6 +61,7 @@ export const NewIngredient = () => {
                             id="name"
                             className="col-span-3"
                             placeholder={"Chicken..."}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -48,8 +74,9 @@ export const NewIngredient = () => {
                                 placeholder="42..."
                                 type={"number"}
                                 className="flex-grow"
+                                onChange={(e) => setQuantity(parseInt(e.target.value))}
                             />
-                            <Select defaultValue={"piece"}>
+                            <Select defaultValue={"piece"} onValueChange={(e) => setType(e)}>
                                 <SelectTrigger>
                                     <SelectValue/>
                                 </SelectTrigger>
@@ -68,7 +95,7 @@ export const NewIngredient = () => {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Save changes</Button>
+                    <Button onClick={addNewIngredient} type="button">Save changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
