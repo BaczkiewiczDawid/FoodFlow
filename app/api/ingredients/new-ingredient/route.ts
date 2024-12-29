@@ -6,9 +6,9 @@ export async function GET(req: NextRequest) {
         const searchParams = req.nextUrl.searchParams
         const paramsObject = Object.fromEntries(searchParams.entries())
 
-        const data = addNewIngredient(paramsObject)
+        const data = await addNewIngredient(paramsObject)
 
-        return NextResponse.json({message: "Ingredient added successfully", data: data})
+        return NextResponse.json(data)
     } catch (err) {
         return NextResponse.json({error: "Error"}, {status: 500})
     }

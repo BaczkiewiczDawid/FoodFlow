@@ -1,12 +1,13 @@
 import {NextRequest, NextResponse} from "next/server";
 import {deleteIngredient} from "@/app/api/interfaces/delete-ingredient";
+import {getIngredientsByUser} from "@/app/api/interfaces/get-ingredients-by-user";
 
 export async function GET(req: NextRequest) {
     try {
         const searchParams = req.nextUrl.searchParams
-        const paramsObject = Object.fromEntries(searchParams.entries())
+        const user = searchParams.get("email")
 
-        const data = await deleteIngredient(paramsObject)
+        const data = await getIngredientsByUser(user)
 
         return NextResponse.json(data)
     } catch (err) {

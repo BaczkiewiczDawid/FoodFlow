@@ -1,42 +1,41 @@
-import {PencilSquareIcon} from "@heroicons/react/24/outline";
+"use client"
+
 import {Separator} from "@/components/ui/separator";
 import {IngredientItem} from "@/app/protected/ingredients/components/ingredient-item";
 import {Ingredient} from "@/app/types/ingredient";
+import {useApi} from "@/helpers/useApi";
+import {useEffect, useState} from "react";
 
 export const IngredientsList = () => {
-    const dummyIngredientsData: Ingredient[] = [
-        {
-            name: "Chicken",
-            amount: 200,
-            type: "grammage"
-        },
-        {
-            name: "Cheese",
-            amount: 100,
-            type: "grammage"
-        },
-        {
-            name: "Pasta",
-            amount: 150,
-            type: "grammage"
-        },
-        {
-            name: "Tomato souce",
-            amount: 200,
-            type: "grammage"
-        },
-        {
-            name: "Onion",
-            amount: 1,
-            type: "piece"
+    const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([])
+
+    const getIngredientsList = async () => {
+        try {
+            const response = await useApi("/api/ingredients/get-ingredients", {
+                email: "baczkiewicz.dawid22@gmail.com"
+            })
+
+            return response
+        } catch (err) {
+            console.error(err)
         }
-    ]
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getIngredientsList()
+
+            setIngredientsList(response.data)
+        }
+
+        fetchData()
+    })
 
     return (
         <>
             <p className={"font-bold mt-8"}>Ingredients</p>
             <ul className={"list-none ml-4 mt-4"}>
-                {dummyIngredientsData.map((ingredient, index) => {
+                {ingredientsList.map((ingredient, index) => {
                     return (
                         <div key={index}>
                             <IngredientItem
