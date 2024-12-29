@@ -5,12 +5,15 @@ import {IngredientItem} from "@/app/protected/ingredients/components/ingredient-
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {useEffect, useState} from "react";
+import {Skeleton} from "@/components/ui/skeleton";
 
 export const IngredientsList = () => {
     const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const getIngredientsList = async () => {
         try {
+            setIsLoading(true)
             const response = await useApi("/api/ingredients/get-ingredients", {
                 email: "baczkiewicz.dawid22@gmail.com"
             })
@@ -26,10 +29,11 @@ export const IngredientsList = () => {
             const response = await getIngredientsList()
 
             setIngredientsList(response.data)
+            setIsLoading(false)
         }
 
         fetchData()
-    })
+    }, [])
 
     return (
         <>
