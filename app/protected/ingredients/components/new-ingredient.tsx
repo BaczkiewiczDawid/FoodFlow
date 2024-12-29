@@ -1,16 +1,17 @@
 "use client"
 
 import {Button} from "@/components/ui/button"
-import {Input} from "@/components/ui/input"
-import {Label} from "@/components/ui/label"
 import {
     Dialog,
     DialogContent,
-    DialogDescription, DialogFooter,
+    DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog";
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
 
 export const NewIngredient = () => {
     return (
@@ -18,7 +19,7 @@ export const NewIngredient = () => {
             <DialogTrigger asChild>
                 <Button variant="outline">Edit Profile</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Edit profile</DialogTitle>
                     <DialogDescription>
