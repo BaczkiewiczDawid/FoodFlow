@@ -84,7 +84,7 @@ export default async function ProtectedPage() {
                 <div className={"flex flex-col gap-y-4 lg:mt-8"}>
                     {meals.map((meal) => {
                         return (
-                            <MealCard id={meal.id} name={meal.name} ingredients={meal.ingredients}
+                            <MealCard key={meal.id} id={meal.id} name={meal.name} ingredients={meal.ingredients}
                                       macros={meal.macros}/>
                         )
                     })}

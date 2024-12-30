@@ -1,5 +1,5 @@
 export type Ingredient = {
-    id: number,
+    id?: number,
     name: string,
     amount: number,
     type: "grammage" | "piece",
