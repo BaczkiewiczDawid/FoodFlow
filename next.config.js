@@ -1,20 +1,14 @@
-const {withAxiom} = require("next-axiom")
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
-    transpilePackages: ["geist"],
-    modularizeImports: {
-        "@mui/material": {
-            transform: "@mui/material/{{member}}",
-        },
-    },
-    experimental: {
-        esmExternals: true,
-    },
+    swcMinify: true,
     images: {
-        formats: ["image/avif", "image/webp"],
+        domains: [],
     },
-}
+    i18n: {
+        locales: ['en'],
+        defaultLocale: 'en',
+    },
+};
 
-module.exports = withAxiom(nextConfig)
+module.exports = nextConfig;
