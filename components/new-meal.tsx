@@ -9,27 +9,28 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
-import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {useState} from "react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {IngredientInput} from "@/components/calendar/ingredient-input";
+import {Ingredient} from "@/app/types/ingredient";
 
 export const NewMeal = () => {
-    const [selectedMeals, setSelectedMeals] = useState([])
-    const [selectedIngredients, setSelectedIngredients] = useState([])
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [selectedMeals, setSelectedMeals] = useState<Ingredient[]>([])
+    const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
 
-    const newMeal = () => {
+    const addNewMeal = () => {
+        if (selectedIngredients.length === 0 || selectedMeals.length === 0) return
 
+        setIsOpen(false)
     }
 
     return (
         <div>
-            <Dialog>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <button
                         className={"bg-amber-400 bottom-4 right-4 absolute w-12 h-12 text-center rounded-full text-4xl cursor-pointer"}
-                        onClick={newMeal}
                     >+
                     </button>
                 </DialogTrigger>
@@ -46,44 +47,25 @@ export const NewMeal = () => {
                         <TabsContent value={"ingredient"}>
                             {Array.from({length: selectedIngredients.length + 1}).map((val, index) => {
                                 return (
-                                    <div key={index} className={"mt-4"}>
-                                        <Label>Ingredient #{index + 1}</Label>
-                                        <div className={"mt-2"}>
-                                            <Select>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder={"Select ingredient..."}/>
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        <SelectItem value={"chicken"}>Chicken</SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                    </div>
+                                    <IngredientInput
+                                        key={index}
+                                        index={index}
+                                        setValue={setSelectedIngredients}
+                                        inputType={"ingredient"}
+                                    />
                                 )
                             })}
                         </TabsContent>
                         <TabsContent value={"meal"}>
-                            <div className={"mt-4"}>
-                                <Label>Meal #1</Label>
-                                <div className={"mt-2"}>
-                                    <Select>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder={"Select ingredient..."}/>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectItem value={"chicken"}>Chicken</SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </div>
+                            {Array.from({ length: selectedMeals.length + 1}).map((val, index) => {
+                                return (
+                                    <IngredientInput key={index} index={index} setValue={setSelectedIngredients} inputType={"meal"} />
+                                )
+                            })}
                         </TabsContent>
                     </Tabs>
                     <DialogFooter>
-                        <Button>Save</Button>
+                        <Button onClick={addNewMeal}>Save</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
