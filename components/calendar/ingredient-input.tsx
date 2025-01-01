@@ -8,9 +8,10 @@ type Props = {
     index: number
     setValue: (value: any) => void
     inputType: "meal" | "ingredient"
+    options: { [key: string]: string | number }[]
 }
 
-export const IngredientInput = ({index, setValue, inputType}: Props) => {
+export const IngredientInput = ({index, setValue, inputType, options}: Props) => {
     const [type, setType] = useState("piece")
     const [name, setName] = useState("")
     const [amount, setAmount] = useState<number>(1)
@@ -24,7 +25,7 @@ export const IngredientInput = ({index, setValue, inputType}: Props) => {
             if (ingredientExists) {
                 return prev.map((item) =>
                     item.name === name
-                        ? {...item, amount, type}
+                        ? {name, amount, type}
                         : item
                 );
             } else {
@@ -48,10 +49,16 @@ export const IngredientInput = ({index, setValue, inputType}: Props) => {
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectItem value={"chicken"}>Chicken</SelectItem>
-                            <SelectItem value={"pasta"}>Pasta</SelectItem>
-                            <SelectItem value={"cheese"}>Cheese</SelectItem>
-                            <SelectItem value={"onion"}>Onion</SelectItem>
+                            {options.map((option, index) => {
+                                return (
+                                    <SelectItem
+                                        key={index}
+                                        value={String(option.name).toLowerCase()}
+                                    >
+                                        {option.name}
+                                    </SelectItem>
+                                )
+                            })}
                         </SelectGroup>
                     </SelectContent>
                 </Select>

@@ -9,21 +9,47 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {IngredientInput} from "@/components/calendar/ingredient-input";
 import {Ingredient} from "@/app/types/ingredient";
+import {useApi} from "@/helpers/useApi";
 
 export const NewMeal = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedMeals, setSelectedMeals] = useState<Ingredient[]>([])
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
+    const [userIngredients, setUserIngredients] = useState<Ingredient[]>([])
+
+    const getIngredientsList = async () => {
+        try {
+            const response = await useApi("/api/ingredients/get-ingredients", {
+                email: "baczkiewicz.dawid22@gmail.com"
+            })
+
+            return response
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getIngredientsList()
+
+            setUserIngredients(response.data)
+        }
+
+        fetchData()
+    }, [])
 
     const addNewMeal = () => {
-        if (selectedIngredients.length === 0 || selectedMeals.length === 0) return
+        if (!selectedIngredients || !selectedMeals) return
 
         setIsOpen(false)
     }
+
+    console.log(selectedIngredients)
 
     return (
         <div>
@@ -50,6 +76,7 @@ export const NewMeal = () => {
                                     <IngredientInput
                                         key={index}
                                         index={index}
+                                        options={userIngredients}
                                         setValue={setSelectedIngredients}
                                         inputType={"ingredient"}
                                     />
@@ -57,9 +84,14 @@ export const NewMeal = () => {
                             })}
                         </TabsContent>
                         <TabsContent value={"meal"}>
-                            {Array.from({ length: selectedMeals.length + 1}).map((val, index) => {
+                            {Array.from({length: selectedMeals.length + 1}).map((val, index) => {
                                 return (
-                                    <IngredientInput key={index} index={index} setValue={setSelectedIngredients} inputType={"meal"} />
+                                    <IngredientInput
+                                        key={index}
+                                        index={index}
+                                        options={[]}
+                                        setValue={setSelectedIngredients}
+                                        inputType={"meal"}/>
                                 )
                             })}
                         </TabsContent>
