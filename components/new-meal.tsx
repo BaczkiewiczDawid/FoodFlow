@@ -14,6 +14,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {IngredientInput} from "@/components/calendar/ingredient-input";
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
+import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export const NewMeal = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -49,7 +50,24 @@ export const NewMeal = () => {
         setIsOpen(false)
     }
 
-    console.log(selectedIngredients)
+    const mealOptions = [
+        {
+            name: "Breakfast",
+            value: "breakfast"
+        },
+        {
+            name: "Lunch",
+            value: "lunch"
+        },
+        {
+            name: "Dinner",
+            value: "dinner"
+        },
+        {
+            name: "Supper",
+            value: "supper"
+        },
+    ]
 
     return (
         <div>
@@ -65,7 +83,26 @@ export const NewMeal = () => {
                         <DialogTitle>Add new meal</DialogTitle>
                         <DialogDescription>Add Your meal ingredients or select whole meal</DialogDescription>
                     </DialogHeader>
-                    <Tabs>
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder={"Select meal"}/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                {mealOptions.map((option, index) => {
+                                    return (
+                                        <SelectItem
+                                            key={index}
+                                            value={option.value}
+                                        >
+                                            {option.name}
+                                        </SelectItem>
+                                    )
+                                })}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <Tabs defaultValue={"ingredient"}>
                         <TabsList className={"grid w-full grid-cols-2"}>
                             <TabsTrigger value={"ingredient"}>Ingredient</TabsTrigger>
                             <TabsTrigger value={"meal"}>Meal</TabsTrigger>
