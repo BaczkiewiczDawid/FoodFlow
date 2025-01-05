@@ -46,33 +46,6 @@ export type ReturnData = {
     }[]
 }[]
 
-// export const getMealsForDay = async (date: string, userID: string) => {
-//     try {
-//         const data: any = await db.select().from(dailyData).where(and(eq(dailyData.date, date), eq(dailyData.userID, userID)))
-//
-//         const ingredients = data.map((el: any) => {
-//             return el.ingredients.map((ingredient: Ingredient) => ingredient.name)
-//         })
-//
-//         const ingredientsDetails = ingredients.length > 0
-//             ? await db.select().from(ingredientsList).where(inArray(ingredientsList.name, ingredients))
-//             : [];
-//
-//         const finalData: ReturnData = data.map((el: any) => {
-//             return {
-//                 mealType: el.type,
-//                 ingredients: ingredientsDetails
-//             }
-//         })
-//
-//         return finalData
-//     } catch (err) {
-//         console.error(err)
-//
-//         return []
-//     }
-// }
-
 export const getMealsForDay = async (date: string, userID: string) => {
     try {
         const data: any[] = await db
@@ -100,9 +73,24 @@ export const getMealsForDay = async (date: string, userID: string) => {
                 groupedData[mealType] = { mealType, ingredients: [] };
             }
 
-            const mealIngredients = el.ingredients.map((ingredient: Ingredient) =>
-                ingredientsDetails.find((detail) => detail.name === ingredient.name)
-            );
+            const mealIngredients = el.ingredients.map((ingredient: Ingredient) => {
+                const ingredientDetail = ingredientsDetails.find(
+                    (detail) => detail.name === ingredient.name
+                );
+
+                if (ingredientDetail) {
+                    const factor = ingredient.type === "grammage" ? ingredient.amount / 100 : 1;
+
+                    return {
+                        ...ingredientDetail,
+                        kcal: ingredientDetail.kcal * factor,
+                        protein: ingredientDetail.protein * factor,
+                        fat: ingredientDetail.fat * factor,
+                        carbs: ingredientDetail.carbs * factor,
+                    };
+                }
+                return undefined;
+            });
 
             groupedData[mealType].ingredients.push(
                 ...mealIngredients.filter((ingredient: Ingredient) => ingredient !== undefined)
@@ -117,3 +105,4 @@ export const getMealsForDay = async (date: string, userID: string) => {
         return [];
     }
 };
+
