@@ -24,7 +24,7 @@ type Props = {
     }[]
 }
 
-export const NewMeal = ({ mealOptions }: Props) => {
+export const NewMeal = ({mealOptions}: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedMeals, setSelectedMeals] = useState<Ingredient[]>([])
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
@@ -98,7 +98,7 @@ export const NewMeal = ({ mealOptions }: Props) => {
                             <TabsTrigger value={"ingredient"}>Ingredient</TabsTrigger>
                             <TabsTrigger value={"meal"}>Meal</TabsTrigger>
                         </TabsList>
-                        <TabsContent value={"ingredient"}>
+                        <TabsContent value={"ingredient"} className={"overflow-y-auto max-h-64"}>
                             {Array.from({length: selectedIngredients.length + 1}).map((val, index) => {
                                 return (
                                     <IngredientInput
@@ -111,7 +111,7 @@ export const NewMeal = ({ mealOptions }: Props) => {
                                 )
                             })}
                         </TabsContent>
-                        <TabsContent value={"meal"}>
+                        <TabsContent value={"meal"} className={"overflow-y-auto max-h-64"}>
                             {Array.from({length: selectedMeals.length + 1}).map((val, index) => {
                                 return (
                                     <IngredientInput
