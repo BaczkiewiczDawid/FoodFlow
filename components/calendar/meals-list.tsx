@@ -1,16 +1,10 @@
 import {Ingredient} from "@/app/types/ingredient";
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
+import {MealData} from "@/app/types/meal-data";
 
 type Props = {
     mealType: string,
-    mealData: {
-        id: number
-        name: string,
-        kcal: number,
-        protein: number,
-        fat: number,
-        carbs: number
-    }[]
+    mealData: MealData[]
 }
 
 export const MealsList = ({mealType, mealData}: Props) => {
