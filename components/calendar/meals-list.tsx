@@ -1,3 +1,6 @@
+import {Ingredient} from "@/app/types/ingredient";
+import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
+
 type Props = {
     mealType: string,
     mealData: {
@@ -11,20 +14,29 @@ type Props = {
 }
 
 export const MealsList = ({mealType, mealData}: Props) => {
-    if (!mealData) return
+    const sumMacros = (data: any) => {
+        if (data) {
+            return data.reduce(
+                (acc: any, ingredient: any) => {
+                    acc.kcal += ingredient.kcal;
+                    acc.protein += ingredient.protein;
+                    acc.fat += ingredient.fat;
+                    acc.carbs += ingredient.carbs;
+                    return acc;
+                },
+                {kcal: 0, protein: 0, fat: 0, carbs: 0}
+            )
+        } else {
+            return {
+                kcal: 0,
+                protein: 0,
+                fat: 0,
+                carbs: 0
+            }
+        }
+    }
 
-    const macroSum = mealData.reduce(
-        (acc, ingredient) => {
-            acc.kcal += ingredient.kcal;
-            acc.protein += ingredient.protein;
-            acc.fat += ingredient.fat;
-            acc.carbs += ingredient.carbs;
-            return acc;
-        },
-        { kcal: 0, protein: 0, fat: 0, carbs: 0 }
-    );
-
-    console.log(mealData)
+    const macroSum = sumMacros(mealData)
 
     return (
         <div>
@@ -40,10 +52,10 @@ export const MealsList = ({mealType, mealData}: Props) => {
                 </div>
             </div>
             <div className={"flex flex-col p-4 gap-y-4"}>
-                {mealData.map((meal, index) => {
+                {mealData?.map((meal, index) => {
                     return (
                         <div key={index}>
-                            <p>{meal.name}</p>
+                            <p>{firstLetterToUpperCase(meal.name)}</p>
                             <div className={"flex justify-between font-light text-sm"}>
                                 <p>{meal.kcal} Kcal</p>
                                 <p>{meal.protein} B</p>

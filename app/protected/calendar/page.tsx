@@ -22,7 +22,6 @@ const mealOptions = [
 ]
 
 export default async function Page() {
-
     const meals = await getMealsForDay("2025-05-01", "a6801067-87a6-406b-a73a-94e26e89f9b7")
 
     return (
