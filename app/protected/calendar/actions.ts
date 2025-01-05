@@ -1,9 +1,10 @@
 "use server"
 
 import {db} from "@/drizzle/db";
-import {dailyData, ingredientsList} from "@/drizzle/schema";
-import {and, eq, inArray} from "drizzle-orm";
+import {dailyData, ingredientsList, userIngredients} from "@/drizzle/schema";
+import {and, eq, inArray, sql} from "drizzle-orm";
 import {Ingredient} from "@/app/types/ingredient";
+import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
 
 export const addNewMealData = async (ingredients: any, mealType: string | undefined) => {
     if (!mealType) throw new Error("Meal type is required")
@@ -16,6 +17,8 @@ export const addNewMealData = async (ingredients: any, mealType: string | undefi
             ingredients: ingredients,
             type: mealType
         })
+
+        await updateMyIngredients(ingredients)
 
         return {
             status: true,
@@ -33,18 +36,28 @@ export const addNewMealData = async (ingredients: any, mealType: string | undefi
     }
 }
 
+const updateMyIngredients = async (ingredients: Ingredient[]) => {
+    if (!ingredients || ingredients.length === 0) {
+        throw new Error("No ingredients found!");
+    }
 
-export type ReturnData = {
-    mealType: string,
-    macro: {
-        id: number,
-        name: string
-        kcal: number,
-        protein: number,
-        fat: number,
-        carbs: number
-    }[]
-}[]
+    try {
+        const promises = ingredients.map((ingredient) =>
+            db.update(userIngredients)
+                .set({
+                    amount: sql`${userIngredients.amount} - ${ingredient.amount}`,
+                })
+                .where(eq(userIngredients.name, firstLetterToUpperCase(ingredient.name)))
+        );
+
+        await Promise.all(promises);
+        return {success: true, message: "Ingredients updated successfully."};
+    } catch (err) {
+        console.error(err);
+        throw new Error("Failed to update ingredients.");
+    }
+};
+
 
 export const getMealsForDay = async (date: string, userID: string) => {
     try {
@@ -70,7 +83,7 @@ export const getMealsForDay = async (date: string, userID: string) => {
             const mealType = el.type;
 
             if (!groupedData[mealType]) {
-                groupedData[mealType] = { mealType, ingredients: [] };
+                groupedData[mealType] = {mealType, ingredients: []};
             }
 
             const mealIngredients = el.ingredients.map((ingredient: Ingredient) => {

@@ -1,7 +1,6 @@
 import {NewMeal} from "@/components/new-meal";
 import {MealsList} from "@/components/calendar/meals-list";
 import {getMealsForDay} from "@/app/protected/calendar/actions";
-import moment from "moment";
 import {getDates} from "@/hooks/get-dates";
 import {calculateMacro} from "@/hooks/calculate-macro";
 
@@ -34,7 +33,9 @@ export default async function Page() {
     return (
         <div>
             <NewMeal mealOptions={mealOptions}/>
-            <h1 className={"font-bold text-xl"}>{dateString}</h1>
+            <div className={"flex items-center"}>
+                <h1 className={"font-bold text-xl"}>{dateString}</h1>
+            </div>
             <div>
                 <div className={"flex justify-between font-light text-sm md:w-1/3"}>
                     <p>{totalMacro.kcal} Kcal</p>
