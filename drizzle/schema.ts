@@ -1,4 +1,4 @@
-import {integer, pgTable, serial, timestamp, varchar} from "drizzle-orm/pg-core";
+import {date, integer, json, jsonb, pgTable, serial, timestamp, uuid, varchar} from "drizzle-orm/pg-core";
 import {sql} from "drizzle-orm";
 
 export const userIngredients = pgTable('userIngredients', {
@@ -8,4 +8,23 @@ export const userIngredients = pgTable('userIngredients', {
     amount: integer("amount").notNull(),
     type: varchar("type").notNull(),
     email: varchar("email").notNull()
+})
+
+export const dailyData = pgTable("dailyData", {
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP(3)`).notNull(),
+    date: date("date").notNull(),
+    userID: uuid("userID").notNull(),
+    mealsEaten: json("mealsEaten"),
+    ingredients: jsonb("ingredients"),
+    type: varchar("type").notNull()
+})
+
+export const ingredientsList = pgTable("ingredientsList", {
+    id: serial("id").primaryKey(),
+    name: varchar("name").notNull(),
+    kcal: integer("kcal").notNull(),
+    protein: integer("protein").notNull(),
+    fat: integer("fat").notNull(),
+    carbs: integer("carbs").notNull()
 })

@@ -15,12 +15,21 @@ import {IngredientInput} from "@/components/calendar/ingredient-input";
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {addNewMealData} from "@/app/protected/calendar/actions";
 
-export const NewMeal = () => {
+type Props = {
+    mealOptions: {
+        name: string,
+        value: string
+    }[]
+}
+
+export const NewMeal = ({ mealOptions }: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedMeals, setSelectedMeals] = useState<Ingredient[]>([])
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
     const [userIngredients, setUserIngredients] = useState<Ingredient[]>([])
+    const [mealType, setMealType] = useState<string | undefined>(undefined)
 
     const getIngredientsList = async () => {
         try {
@@ -48,26 +57,8 @@ export const NewMeal = () => {
         if (!selectedIngredients || !selectedMeals) return
 
         setIsOpen(false)
+        addNewMealData(selectedIngredients, mealType)
     }
-
-    const mealOptions = [
-        {
-            name: "Breakfast",
-            value: "breakfast"
-        },
-        {
-            name: "Lunch",
-            value: "lunch"
-        },
-        {
-            name: "Dinner",
-            value: "dinner"
-        },
-        {
-            name: "Supper",
-            value: "supper"
-        },
-    ]
 
     return (
         <div>
@@ -83,7 +74,7 @@ export const NewMeal = () => {
                         <DialogTitle>Add new meal</DialogTitle>
                         <DialogDescription>Add Your meal ingredients or select whole meal</DialogDescription>
                     </DialogHeader>
-                    <Select>
+                    <Select onValueChange={(value) => setMealType(value)}>
                         <SelectTrigger>
                             <SelectValue placeholder={"Select meal"}/>
                         </SelectTrigger>
