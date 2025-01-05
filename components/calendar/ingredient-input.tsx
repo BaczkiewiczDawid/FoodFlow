@@ -11,27 +11,31 @@ type Props = {
     options: { [key: string]: string | number }[]
 }
 
+type IngredientType = "piece" | "grammage"
+
 export const IngredientInput = ({index, setValue, inputType, options}: Props) => {
-    const [type, setType] = useState("piece")
+    const [type, setType] = useState<IngredientType>("piece")
     const [name, setName] = useState("")
     const [amount, setAmount] = useState<number>(1)
+
+    const updateData = (index: number, newItem: Ingredient) => {
+        setValue((prevData: Ingredient[]) => {
+            const updatedData = [...prevData];
+
+            if (index < updatedData.length) {
+                updatedData[index] = newItem;
+            } else {
+                updatedData.push(newItem);
+            }
+
+            return updatedData;
+        });
+    }
 
     useEffect(() => {
         if (!name || !amount || !type) return;
 
-        setValue((prev: Ingredient[]) => {
-            const ingredientExists = prev.some((item) => item.name === name);
-
-            if (ingredientExists) {
-                return prev.map((item) =>
-                    item.name === name
-                        ? {name, amount, type}
-                        : item
-                );
-            } else {
-                return [...prev, {name, amount, type}];
-            }
-        });
+        updateData(index, {name, amount, type})
     }, [name, amount, type]);
 
 
@@ -66,7 +70,7 @@ export const IngredientInput = ({index, setValue, inputType, options}: Props) =>
                     <div className={"flex items-center gap-x-4"}>
                         <Input type={"number"} defaultValue={amount}
                                onChange={(e) => setAmount(Number(e.target.value))}/>
-                        <Select defaultValue={"piece"} onValueChange={(e) => setType(e)}>
+                        <Select defaultValue={"piece"} onValueChange={(e) => setType(e as IngredientType)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={"Select type"}/>
                             </SelectTrigger>
