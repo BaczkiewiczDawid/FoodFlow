@@ -1,6 +1,6 @@
-import {Label} from "@/components/ui/label";
-import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Input} from "@/components/ui/input";
+import {Label} from "../../components/ui/label";
+import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../components/ui/select";
+import {Input} from "../../components/ui/input";
 import {useEffect, useState} from "react";
 import {Ingredient} from "@/app/types/ingredient";
 

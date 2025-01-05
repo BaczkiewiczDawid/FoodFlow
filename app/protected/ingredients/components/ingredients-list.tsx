@@ -1,11 +1,10 @@
 "use client"
 
-import {Separator} from "@/components/ui/separator";
+import {Separator} from "../../../../components/ui/separator";
 import {IngredientItem} from "@/app/protected/ingredients/components/ingredient-item";
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {useEffect, useState} from "react";
-import {Skeleton} from "@/components/ui/skeleton";
 
 export const IngredientsList = () => {
     const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([])

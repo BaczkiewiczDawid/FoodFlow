@@ -38,10 +38,10 @@ export default async function Page() {
             </div>
             <div>
                 <div className={"flex justify-between font-light text-sm md:w-1/3"}>
-                    <p>{totalMacro.kcal} Kcal</p>
-                    <p>{totalMacro.protein} B</p>
-                    <p>{totalMacro.fat} T</p>
-                    <p>{totalMacro.carbs} W</p>
+                    <p>{totalMacro.kcal.toFixed(0)} Kcal</p>
+                    <p>{totalMacro.protein.toFixed(1)} B</p>
+                    <p>{totalMacro.fat.toFixed(1)} T</p>
+                    <p>{totalMacro.carbs.toFixed(1)} W</p>
                 </div>
             </div>
             <div className={"flex flex-col gap-y-4 mt-8 lg:w-2/3 xl:w-1/3"}>

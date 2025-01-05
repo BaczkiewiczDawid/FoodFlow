@@ -28,7 +28,7 @@ export default async function ProtectedPage() {
         datasets: [
             {
                 label: "Calories",
-                data: [totalMacro.kcal, 2200],
+                data: [Number(totalMacro.kcal.toFixed(0)), 2200],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],
@@ -42,7 +42,7 @@ export default async function ProtectedPage() {
         datasets: [
             {
                 label: "Calories",
-                data: [totalMacro.carbs, 350],
+                data: [Number(totalMacro.carbs.toFixed(1)), 350],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],
@@ -56,7 +56,7 @@ export default async function ProtectedPage() {
         datasets: [
             {
                 label: "Calories",
-                data: [totalMacro.protein, 150],
+                data: [Number(totalMacro.protein.toFixed(1)), 150],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],
@@ -70,7 +70,7 @@ export default async function ProtectedPage() {
         datasets: [
             {
                 label: "Calories",
-                data: [totalMacro.fat, 75],
+                data: [Number(totalMacro.fat.toFixed(1)), 75],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],

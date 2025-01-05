@@ -38,10 +38,10 @@ export const MealsList = ({mealType, mealData}: Props) => {
                 <div className={"flex flex-col"}>
                     <p>{mealType}</p>
                     <div className={"flex justify-between font-light text-sm"}>
-                        <p>{macroSum.kcal} Kcal</p>
-                        <p>{macroSum.protein} B</p>
-                        <p>{macroSum.fat} T</p>
-                        <p>{macroSum.carbs} W</p>
+                        <p>{macroSum.kcal.toFixed(0)} Kcal</p>
+                        <p>{macroSum.protein.toFixed(1)} B</p>
+                        <p>{macroSum.fat.toFixed(1)} T</p>
+                        <p>{macroSum.carbs.toFixed(1)} W</p>
                     </div>
                 </div>
             </div>
@@ -51,10 +51,10 @@ export const MealsList = ({mealType, mealData}: Props) => {
                         <div key={index}>
                             <p>{firstLetterToUpperCase(meal.name)}</p>
                             <div className={"flex justify-between font-light text-sm"}>
-                                <p>{meal.kcal} Kcal</p>
-                                <p>{meal.protein} B</p>
-                                <p>{meal.fat} T</p>
-                                <p>{meal.carbs} W</p>
+                                <p>{meal.kcal.toFixed(0)} Kcal</p>
+                                <p>{meal.protein.toFixed(1)} B</p>
+                                <p>{meal.fat.toFixed(1)} T</p>
+                                <p>{meal.carbs.toFixed(1)} W</p>
                             </div>
                         </div>
                     )
