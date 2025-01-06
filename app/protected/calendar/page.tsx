@@ -1,8 +1,8 @@
 import {NewMeal} from "@/components/new-meal";
-import {MealsList} from "@/components/calendar/meals-list";
-import {getMealsForDay} from "@/app/protected/calendar/actions";
 import {getDates} from "@/hooks/get-dates";
-import {calculateMacro} from "@/hooks/calculate-macro";
+import {DateSelector} from "@/components/calendar/date-selector";
+import {Meals} from "@/components/calendar/meals";
+import {MacroSummary} from "@/components/calendar/macro-summary";
 
 const mealOptions = [
     {
@@ -24,39 +24,16 @@ const mealOptions = [
 ]
 
 export default async function Page() {
-    const {today, dateString} = getDates()
-
-    const meals = await getMealsForDay(today, "a6801067-87a6-406b-a73a-94e26e89f9b7")
-
-    const totalMacro = calculateMacro(meals)
+    const {today} = getDates()
 
     return (
         <div>
             <NewMeal mealOptions={mealOptions}/>
-            <div className={"flex items-center"}>
-                <h1 className={"font-bold text-xl"}>{dateString}</h1>
+            <DateSelector date={today as string}/>
+            <div className={"mt-4"}>
+                <MacroSummary />
             </div>
-            <div>
-                <div className={"flex justify-between font-light text-sm md:w-1/3"}>
-                    <p>{totalMacro.kcal.toFixed(0)} Kcal</p>
-                    <p>{totalMacro.protein.toFixed(1)} B</p>
-                    <p>{totalMacro.fat.toFixed(1)} T</p>
-                    <p>{totalMacro.carbs.toFixed(1)} W</p>
-                </div>
-            </div>
-            <div className={"flex flex-col gap-y-4 mt-8 lg:w-2/3 xl:w-1/3"}>
-                {mealOptions.map((option, index) => {
-                    const mealData = meals.filter((meal) => meal.mealType === option.value)
-
-                    return (
-                        <MealsList
-                            key={index}
-                            mealType={option.name}
-                            mealData={mealData[0]?.ingredients}
-                        />
-                    )
-                })}
-            </div>
+            <Meals mealOptions={mealOptions}/>
         </div>
     )
 }
