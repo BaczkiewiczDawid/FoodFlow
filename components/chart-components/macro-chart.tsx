@@ -11,7 +11,7 @@ export const MacroChart = ({data, name}: Props) => {
         <div className={"flex flex-col justify-center items-center"}>
             <p>{name}</p>
             <Chart className={"py-2 items-center flex justify-center"} data={data}/>
-            <p className={"text-center text-sm"}>1754 of 2343</p>
+            <p className={"text-center text-sm"}>{data.datasets[0].data[0]} of {data.datasets[0].data[1]}</p>
         </div>
     )
 }

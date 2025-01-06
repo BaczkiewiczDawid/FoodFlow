@@ -2,6 +2,9 @@ import {createClient} from "@/utils/supabase/server";
 import {redirect} from "next/navigation";
 import {MacroChart} from "@/components/chart-components/macro-chart";
 import {MealCard} from "@/components/meal-card";
+import {getMealsForDay} from "@/app/protected/calendar/actions";
+import {getDates} from "@/hooks/get-dates";
+import {calculateMacro} from "@/hooks/calculate-macro";
 
 export default async function ProtectedPage() {
     const supabase = await createClient();
@@ -14,15 +17,62 @@ export default async function ProtectedPage() {
         return redirect("/sign-in");
     }
 
+    const {today} = getDates()
 
-    const data = {
+    const mealsData = await getMealsForDay(today, "a6801067-87a6-406b-a73a-94e26e89f9b7")
+
+    const totalMacro = calculateMacro(mealsData)
+
+    const kcalData = {
         labels: ["Calories, Total"],
         datasets: [
             {
                 label: "Calories",
-                data: [320, 120],
+                data: [Number(totalMacro.kcal.toFixed(0)), 2200],
                 backgroundColor: [
-                    'rgb(255, 99, 132)', "rgb(225,225,225)"
+                    "rgb(255, 99, 132)", "rgb(225,225,225)"
+                ],
+                borderWidth: 0,
+                weight: 2,
+            },
+        ]
+    }
+    const carbsData = {
+        labels: ["Carbs, Total"],
+        datasets: [
+            {
+                label: "Calories",
+                data: [Number(totalMacro.carbs.toFixed(1)), 350],
+                backgroundColor: [
+                    "rgb(255, 99, 132)", "rgb(225,225,225)"
+                ],
+                borderWidth: 0,
+                weight: 2,
+            },
+        ]
+    }
+    const proteinData = {
+        labels: ["Protein, Total"],
+        datasets: [
+            {
+                label: "Calories",
+                data: [Number(totalMacro.protein.toFixed(1)), 150],
+                backgroundColor: [
+                    "rgb(255, 99, 132)", "rgb(225,225,225)"
+                ],
+                borderWidth: 0,
+                weight: 2,
+            },
+        ]
+    }
+    const fatData = {
+        labels: ["Fat, Total"],
+        datasets: [
+            {
+                label: "Calories",
+                data: [Number(totalMacro.fat.toFixed(1)), 75],
+                backgroundColor: [
+                    "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],
                 borderWidth: 0,
                 weight: 2,
@@ -73,10 +123,10 @@ export default async function ProtectedPage() {
                 </h1>
                 <p className={"mt-4 lg:mt-12"}>Today, You've eaten</p>
                 <div className={"grid grid-cols-2 gap-x-4 gap-y-8 w-[90%] lg:grid-cols-4 mt-4"}>
-                    <MacroChart data={data} name={"Kcal"}/>
-                    <MacroChart data={data} name={"Carbs"}/>
-                    <MacroChart data={data} name={"Protein"}/>
-                    <MacroChart data={data} name={"Fat"}/>
+                    <MacroChart data={kcalData} name={"Kcal"}/>
+                    <MacroChart data={carbsData} name={"Carbs"}/>
+                    <MacroChart data={proteinData} name={"Protein"}/>
+                    <MacroChart data={fatData} name={"Fat"}/>
                 </div>
             </div>
             <div className={"lg:w-1/2"}>

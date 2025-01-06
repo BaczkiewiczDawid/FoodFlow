@@ -17,7 +17,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "../../components/ui/sidebar"
 import Link from "next/link";
 
 export const Navigation = () => {
@@ -29,22 +29,22 @@ export const Navigation = () => {
         },
         {
             title: "Meals list",
-            url: "protected/meals",
+            url: "meals",
             icon: ClipboardDocumentListIcon,
         },
         {
             title: "Calendar",
-            url: "protected/calendar",
+            url: "calendar",
             icon: CalendarDaysIcon,
         },
         {
             title: "My ingredients",
-            url: "protected/ingredients",
+            url: "ingredients",
             icon: BuildingStorefrontIcon,
         },
         {
             title: "Settings",
-            url: "protected/settings",
+            url: "settings",
             icon: Cog6ToothIcon,
         }
     ]
@@ -59,7 +59,7 @@ export const Navigation = () => {
                             {navigationItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <Link href={item.url}>
+                                        <Link href={`/protected/${item.url}`}>
                                             <item.icon/>
                                             <span>{item.title}</span>
                                         </Link>

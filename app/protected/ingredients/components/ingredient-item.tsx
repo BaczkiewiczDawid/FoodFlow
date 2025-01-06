@@ -10,10 +10,10 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle, DialogTrigger
-} from "@/components/ui/dialog";
-import {Input} from "@/components/ui/input";
-import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Button} from "@/components/ui/button";
+} from "../../../../components/ui/dialog";
+import {Input} from "../../../../components/ui/input";
+import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../../../components/ui/select";
+import {Button} from "../../../../components/ui/button";
 
 type Props = {
     name: string,
@@ -59,7 +59,7 @@ export const IngredientItem = ({name, amount, type}: Props) => {
                 <span>{name}</span>
                 <div className={"flex flex-row items-center justify-between"}>
                     <span>{amount} {type}</span>
-                    <Dialog open={isOpen}>
+                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>
                             <PencilSquareIcon onClick={() => setIsOpen(true)}
                                               className={"w-4 h-4 ml-4 cursor-pointer"}/>
