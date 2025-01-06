@@ -2,11 +2,19 @@
 
 import {calculateMacro} from "@/hooks/calculate-macro";
 import {useCalendarStore} from "@/app/context/calendar";
+import {Skeleton} from "@/components/ui/skeleton";
 
 export const MacroSummary = () => {
     const meals = useCalendarStore((state: any) => state.meals)
+    const isLoading = useCalendarStore((state: any) => state.isLoading)
 
     const totalMacro = calculateMacro(meals)
+
+    if (isLoading) {
+        return (
+            <Skeleton className={"w-1/2 h-6"}/>
+        )
+    }
 
     return (
         <div className={"flex justify-between font-light text-sm md:w-1/3"}>
