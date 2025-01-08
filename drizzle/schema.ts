@@ -28,3 +28,16 @@ export const ingredientsList = pgTable("ingredientsList", {
     fat: integer("fat").notNull(),
     carbs: integer("carbs").notNull()
 })
+
+export const mealsList = pgTable("mealsList", {
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP(3)`).notNull(),
+    name: varchar("name").notNull(),
+    ingredients: json("ingredients").notNull(),
+    kcal: integer("kcal").notNull(),
+    protein: integer("protein").notNull(),
+    carbs: integer("carbs").notNull(),
+    fat: integer("fat").notNull(),
+    description: varchar("description").notNull(),
+    details: varchar("details").notNull(),
+})
