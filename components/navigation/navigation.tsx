@@ -74,7 +74,7 @@ export const Navigation = () => {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
-                            <Link href={"/logout"}>
+                            <Link href={"/"}>
                                 <ArrowLeftEndOnRectangleIcon className={"h-6 w-6 text-red-500"}/>
                                 <span className={"text-red-500"}>Log out</span>
                             </Link>

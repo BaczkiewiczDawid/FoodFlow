@@ -15,7 +15,9 @@ export default async function Index() {
                     <Link href={"/sign-up"}>
                         <Button className={"px-8"}>Join now!</Button>
                     </Link>
-                    <Button variant={"link"} className={"mt-2"}>Already have an account? Login now</Button>
+                    <Link href={"/sign-in"}>
+                        <Button variant={"link"} className={"mt-2"}>Already have an account? Login now</Button>
+                    </Link>
                 </div>
             </div>
         </>
