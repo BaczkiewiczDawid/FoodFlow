@@ -19,7 +19,6 @@ import {
     SidebarMenuItem,
 } from "../../components/ui/sidebar"
 import Link from "next/link";
-import {createClient} from "@/utils/supabase/server";
 
 export const Navigation = () => {
     const navigationItems = [
@@ -49,12 +48,6 @@ export const Navigation = () => {
             icon: Cog6ToothIcon,
         }
     ]
-
-    const signOut = async () => {
-        const supabase = await createClient();
-
-        await supabase.auth.signOut()
-    }
 
     return (
         <Sidebar>
