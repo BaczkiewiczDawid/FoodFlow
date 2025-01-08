@@ -19,6 +19,7 @@ import {
     SidebarMenuItem,
 } from "../../components/ui/sidebar"
 import Link from "next/link";
+import {createClient} from "@/utils/supabase/server";
 
 export const Navigation = () => {
     const navigationItems = [
@@ -49,6 +50,12 @@ export const Navigation = () => {
         }
     ]
 
+    const signOut = async () => {
+        const supabase = await createClient();
+
+        await supabase.auth.signOut()
+    }
+
     return (
         <Sidebar>
             <SidebarContent>
@@ -74,7 +81,7 @@ export const Navigation = () => {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
-                            <Link href={"/logout"}>
+                            <Link href={"/"}>
                                 <ArrowLeftEndOnRectangleIcon className={"h-6 w-6 text-red-500"}/>
                                 <span className={"text-red-500"}>Log out</span>
                             </Link>
