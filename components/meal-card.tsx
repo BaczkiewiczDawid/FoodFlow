@@ -12,16 +12,17 @@ type Props = {
         fat: number
     }
     linkDisabled?: boolean
+    onClick?: () => void
 }
 
-export const MealCard = ({id, name, ingredients, macros, linkDisabled}: Props) => {
+export const MealCard = ({id, name, ingredients, macros, linkDisabled, onClick}: Props) => {
     return (
-        <>
+        <div onClick={onClick}>
             {linkDisabled ?
                 <MealInfo name={name} ingredients={ingredients} macros={macros}/> :
                 <Link href={linkDisabled ? `/protected/meals` : `/protected/meal-details/${id}`} key={id}>
                     <MealInfo name={name} ingredients={ingredients} macros={macros}/>
                 </Link>}
-        </>
+        </div>
     )
 }
