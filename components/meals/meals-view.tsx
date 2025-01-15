@@ -31,8 +31,8 @@ export const MealsView = ({initialState, limit}: Props) => {
     const [hasMore, setHasMore] = useState(true);
 
     useMemo(() => {
-        setSelectedMealDetails(initialState.filter((meal) => meal.id === selectedMeal)[0])
-    }, [selectedMeal, initialState])
+        setSelectedMealDetails(mealsList.filter((meal) => meal.id === selectedMeal)[0])
+    }, [selectedMeal, mealsList])
 
     const fetchMeals = async () => {
         if (loading || !hasMore) return;
@@ -71,8 +71,8 @@ export const MealsView = ({initialState, limit}: Props) => {
     }, [observerRef.current, loading, hasMore]);
 
     return (
-        <div className={"flex justify-between h-[80%]"}>
-            <div className={"md:w-1/3 mt-4 md:mt-12 flex flex-col"}>
+        <div className={"flex h-[80%]"}>
+            <div className={"mt-4 md:mt-12 flex flex-col"}>
                 <div className={"flex flex-col gap-y-4"}>
                     {mealsList?.map((meal) => {
                         return (
@@ -99,9 +99,9 @@ export const MealsView = ({initialState, limit}: Props) => {
                     <Skeleton className={"w-full h-4"}/>
                 </div>
             </div>
-            <div className={"w-2/3 px-36 mt-4 md:mt-12"}>
+            <div className={"px-36 mt-4 md:mt-12"}>
                 {selectedMealDetails && (
-                    <div className={"flex flex-col"}>
+                    <div className={"flex flex-col sticky top-8"}>
                         <h2 className={"text-xl"}>{selectedMealDetails.name}</h2>
                         <span
                             className={"font-light text-sm"}>{selectedMealDetails.ingredients?.map((ingredient: Ingredient) => ingredient.name).join(" | ")}</span>
