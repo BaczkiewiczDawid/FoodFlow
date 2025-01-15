@@ -2,14 +2,15 @@ import {getMeals} from "@/app/protected/meals/actions";
 import {MealsView} from "@/components/meals/meals-view";
 
 export default async function Page() {
-    const meals = await getMeals()
+    let limit = 10
+    let offset = 0
 
-    console.log(meals)
+    const meals = await getMeals(10, offset)
 
     return (
-        <div className={"w-full"}>
+        <div className={"w-full ml-2"}>
             <h1 className={"text-xl"}>Meals list</h1>
-            <MealsView meals={meals} />
+            <MealsView initialState={meals} limit={limit}/>
         </div>
     )
 }

@@ -20,7 +20,7 @@ export const MealCard = ({id, name, ingredients, macros, linkDisabled, onClick}:
         <div onClick={onClick}>
             {linkDisabled ?
                 <MealInfo name={name} ingredients={ingredients} macros={macros}/> :
-                <Link href={linkDisabled ? `/protected/meals` : `/protected/meal-details/${id}`} key={id}>
+                <Link href={linkDisabled ? `/protected/meals` : `/protected/meal-details/${id}`}>
                     <MealInfo name={name} ingredients={ingredients} macros={macros}/>
                 </Link>}
         </div>
