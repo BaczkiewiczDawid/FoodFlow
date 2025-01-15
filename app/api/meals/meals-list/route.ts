@@ -1,7 +1,7 @@
 import {getMeals} from "@/app/protected/meals/actions";
 import {NextRequest, NextResponse} from "next/server";
 
-export async function GET(req: NextRequest, res: Response) {
+export async function GET(req: NextRequest) {
     try {
         const searchParams = req.nextUrl.searchParams;
         const limit = searchParams.get("limit") || 10;
