@@ -16,6 +16,8 @@ import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select";
 import {addNewMealData} from "@/app/protected/calendar/actions";
+import moment from "moment";
+import {useCalendarStore} from "@/app/context/calendar";
 
 type Props = {
     mealOptions: {
@@ -30,6 +32,9 @@ export const NewMeal = ({mealOptions}: Props) => {
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
     const [userIngredients, setUserIngredients] = useState<Ingredient[]>([])
     const [mealType, setMealType] = useState<string | undefined>(undefined)
+    const [mealsList, setMealsList] = useState<any>([])
+
+    const {selectedDate} = useCalendarStore((state) => state)
 
     const getIngredientsList = async () => {
         try {
@@ -43,11 +48,26 @@ export const NewMeal = ({mealOptions}: Props) => {
         }
     }
 
+    const getMealsList = async () => {
+        try {
+            const response = await useApi("/api/meals/meals-list", {
+                limit: 10,
+                offset: 0,
+            })
+
+            return response
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     useEffect(() => {
         const fetchData = async () => {
-            const response = await getIngredientsList()
+            const ingredientsResponse = await getIngredientsList()
+            const mealsResponse = await getMealsList()
 
-            setUserIngredients(response.data)
+            setUserIngredients(ingredientsResponse.data)
+            setMealsList(mealsResponse)
         }
 
         fetchData()
@@ -57,7 +77,7 @@ export const NewMeal = ({mealOptions}: Props) => {
         if (!selectedIngredients || !selectedMeals) return
 
         setIsOpen(false)
-        addNewMealData(selectedIngredients, mealType)
+        addNewMealData(selectedIngredients, mealType, selectedDate)
     }
 
     return (
@@ -117,9 +137,11 @@ export const NewMeal = ({mealOptions}: Props) => {
                                     <IngredientInput
                                         key={index}
                                         index={index}
-                                        options={[]}
+                                        options={mealsList}
                                         setValue={setSelectedIngredients}
-                                        inputType={"meal"}/>
+                                        inputType={"meal"}
+                                        hideIndex
+                                    />
                                 )
                             })}
                         </TabsContent>

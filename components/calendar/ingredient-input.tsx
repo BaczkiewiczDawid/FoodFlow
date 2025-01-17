@@ -9,27 +9,34 @@ type Props = {
     setValue: (value: any) => void
     inputType: "meal" | "ingredient"
     options: { [key: string]: string | number }[]
+    hideIndex?: boolean
 }
 
 type IngredientType = "piece" | "grammage"
 
-export const IngredientInput = ({index, setValue, inputType, options}: Props) => {
+export const IngredientInput = ({index, setValue, inputType, options, hideIndex}: Props) => {
     const [type, setType] = useState<IngredientType>("piece")
     const [name, setName] = useState("")
     const [amount, setAmount] = useState<number>(1)
 
     const updateData = (index: number, newItem: Ingredient) => {
-        setValue((prevData: Ingredient[]) => {
-            const updatedData = [...prevData];
+        if (inputType === "ingredient") {
+            setValue((prevData: Ingredient[]) => {
+                const updatedData = [...prevData];
 
-            if (index < updatedData.length) {
-                updatedData[index] = newItem;
-            } else {
-                updatedData.push(newItem);
-            }
+                if (index < updatedData.length) {
+                    updatedData[index] = newItem;
+                } else {
+                    updatedData.push(newItem);
+                }
 
-            return updatedData;
-        });
+                return updatedData;
+            });
+        } else {
+            const selectedMeal = options.find((option) => String(option.name).toLowerCase() === name)
+
+            setValue(selectedMeal?.ingredients)
+        }
     }
 
     useEffect(() => {
@@ -38,10 +45,9 @@ export const IngredientInput = ({index, setValue, inputType, options}: Props) =>
         updateData(index, {name, amount, type})
     }, [name, amount, type]);
 
-
     return (
         <div className={"mt-4"}>
-            <Label>{inputType.charAt(0).toUpperCase() + inputType.slice(1)} #{index + 1}</Label>
+            <Label>{inputType.charAt(0).toUpperCase() + inputType.slice(1)} {!hideIndex && `#${index + 1}`}</Label>
             <div className={"mt-2 flex items-center gap-x-4"}>
                 <Select
                     onValueChange={(value) => {
@@ -52,7 +58,7 @@ export const IngredientInput = ({index, setValue, inputType, options}: Props) =>
                         <SelectValue placeholder={`Select ${inputType}...`}/>
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectGroup>
+                        <SelectGroup className={"max-h-48 overflow-y-auto"}>
                             {options.map((option, index) => {
                                 return (
                                     <SelectItem

@@ -46,7 +46,6 @@ export const Meals = ({mealOptions}: Props) => {
             {mealOptions.map((option, index) => {
                 const mealData = meals.filter((meal) => meal.mealType === option.value)
 
-
                 return (
                     <div key={index}>
                         {isLoading ? <Skeleton className={"w-full h-12"} /> :
