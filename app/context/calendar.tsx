@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const useCalendarStore = create<Props>((set) => ({
-    selectedDate: moment().format("YYYY-DD-MM"),
+    selectedDate: moment().format("YYYY-MM-DD"),
     setSelectedDate: (date: string) => set({selectedDate: date}),
     meals: [],
     setMeals: (meals: Meal[]) => set({meals: meals}),

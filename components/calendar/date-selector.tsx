@@ -15,12 +15,13 @@ export const DateSelector = ({date}: Props) => {
 
     const setDate = (currentDate: string, direction: "forward" | "backward") => {
         const updatedDate = direction === "forward"
-            ? moment(currentDate, "YYYY-DD-MM").add(1, "d").format("YYYY-DD-MM")
-            : moment(currentDate, "YYYY-DD-MM").subtract(1, "d").format("YYYY-DD-MM");
+            ? moment(currentDate, "YYYY-MM-DD").add(1, "d").format("YYYY-MM-DD")
+            : moment(currentDate, "YYYY-MM-DD").subtract(1, "d").format("YYYY-MM-DD");
+
         setSelectedDate(updatedDate);
     };
 
-    const dateString = moment(selectedDate, "YYYY-DD-MM").format("DD MMMM, YYYY");
+    const dateString = moment(selectedDate, "YYYY-MM-DD").format("DD MMMM, YYYY");
 
     return (
         <div className={"flex items-center gap-x-4"}>

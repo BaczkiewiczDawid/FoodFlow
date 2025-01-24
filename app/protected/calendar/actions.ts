@@ -6,12 +6,14 @@ import {and, eq, inArray, sql} from "drizzle-orm";
 import {Ingredient} from "@/app/types/ingredient";
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
 
-export const addNewMealData = async (ingredients: any, mealType: string | undefined) => {
+export const addNewMealData = async (ingredients: any, mealType: string | undefined, selectedDate: string) => {
     if (!mealType) throw new Error("Meal type is required")
 
     try {
+        console.log(selectedDate)
+
         const data = await db.insert(dailyData).values({
-            date: "05-01-2025",
+            date: selectedDate,
             userID: "a6801067-87a6-406b-a73a-94e26e89f9b7",
             mealsEaten: {},
             ingredients: ingredients,
@@ -58,7 +60,6 @@ const updateMyIngredients = async (ingredients: Ingredient[]) => {
     }
 };
 
-
 export const getMealsForDay = async (date: string, userID: string) => {
     try {
         const data: any[] = await db
@@ -68,9 +69,19 @@ export const getMealsForDay = async (date: string, userID: string) => {
 
         if (data.length === 0) return [];
 
-        const allIngredients = data.flatMap((el) =>
-            el.ingredients.map((ingredient: Ingredient) => ingredient.name)
-        );
+        const allIngredients = data.flatMap((el) => {
+            if (Array.isArray(el.ingredients)) {
+                return el.ingredients.flatMap((ingredient: any) => {
+                    if (Array.isArray(ingredient)) {
+                        return ingredient.map((ing: any) => ing.name);
+                    }
+                    return ingredient.name.toLowerCase();
+                });
+            }
+            return [];
+        });
+
+        if (allIngredients.length === 0) return [];
 
         const ingredientsDetails = await db
             .select()
@@ -86,23 +97,27 @@ export const getMealsForDay = async (date: string, userID: string) => {
                 groupedData[mealType] = {mealType, ingredients: []};
             }
 
-            const mealIngredients = el.ingredients.map((ingredient: Ingredient) => {
-                const ingredientDetail = ingredientsDetails.find(
-                    (detail) => detail.name === ingredient.name
-                );
+            const mealIngredients = el.ingredients.flatMap((ingredient: any) => {
+                const ingredientsArray = Array.isArray(ingredient) ? ingredient : [ingredient];
 
-                if (ingredientDetail) {
-                    const factor = ingredient.type === "grammage" ? ingredient.amount / 100 : 1;
+                return ingredientsArray.map((ing: any) => {
+                    const ingredientDetail = ingredientsDetails.find(
+                        (detail) => detail.name.toLowerCase() === ing.name.toLowerCase()
+                    );
 
-                    return {
-                        ...ingredientDetail,
-                        kcal: ingredientDetail.kcal * factor,
-                        protein: ingredientDetail.protein * factor,
-                        fat: ingredientDetail.fat * factor,
-                        carbs: ingredientDetail.carbs * factor,
-                    };
-                }
-                return undefined;
+                    if (ingredientDetail) {
+                        const factor = ing.type === "grammage" ? ing.amount / 100 : 1;
+
+                        return {
+                            ...ingredientDetail,
+                            kcal: ingredientDetail.kcal * factor,
+                            protein: ingredientDetail.protein * factor,
+                            fat: ingredientDetail.fat * factor,
+                            carbs: ingredientDetail.carbs * factor,
+                        };
+                    }
+                    return undefined;
+                });
             });
 
             groupedData[mealType].ingredients.push(
@@ -114,8 +129,9 @@ export const getMealsForDay = async (date: string, userID: string) => {
 
         return finalData;
     } catch (err) {
-        console.error(err);
+        console.error("Błąd w getMealsForDay:", err);
         return [];
     }
 };
+
 

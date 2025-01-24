@@ -15,7 +15,8 @@ import {IngredientInput} from "@/components/calendar/ingredient-input";
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select";
-import {addNewMealData} from "@/app/protected/calendar/actions";
+import {addNewMealData, getMealsForDay} from "@/app/protected/calendar/actions";
+import {useCalendarStore} from "@/app/context/calendar";
 
 type Props = {
     mealOptions: {
@@ -30,6 +31,10 @@ export const NewMeal = ({mealOptions}: Props) => {
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
     const [userIngredients, setUserIngredients] = useState<Ingredient[]>([])
     const [mealType, setMealType] = useState<string | undefined>(undefined)
+    const [mealsList, setMealsList] = useState<any>([])
+
+    const setMeals = useCalendarStore((state) => state.setMeals)
+    const {selectedDate} = useCalendarStore((state) => state)
 
     const getIngredientsList = async () => {
         try {
@@ -43,21 +48,50 @@ export const NewMeal = ({mealOptions}: Props) => {
         }
     }
 
+    const getMealsList = async () => {
+        try {
+            const response = await useApi("/api/meals/meals-list", {
+                limit: 10,
+                offset: 0,
+            })
+
+            return response
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     useEffect(() => {
         const fetchData = async () => {
-            const response = await getIngredientsList()
+            const ingredientsResponse = await getIngredientsList()
+            const mealsResponse = await getMealsList()
 
-            setUserIngredients(response.data)
+            setUserIngredients(ingredientsResponse.data)
+            setMealsList(mealsResponse)
         }
 
         fetchData()
     }, [])
 
+    const getMeals = async () => {
+        return await getMealsForDay(selectedDate, "a6801067-87a6-406b-a73a-94e26e89f9b7")
+    }
+
+    const fetchMeals = async () => {
+        const fetchData = async () => {
+            const res = await getMeals()
+            setMeals(res)
+        }
+
+        fetchData()
+    }
+
     const addNewMeal = () => {
         if (!selectedIngredients || !selectedMeals) return
 
         setIsOpen(false)
-        addNewMealData(selectedIngredients, mealType)
+        addNewMealData(selectedIngredients, mealType, selectedDate)
+        fetchMeals()
     }
 
     return (
@@ -117,9 +151,11 @@ export const NewMeal = ({mealOptions}: Props) => {
                                     <IngredientInput
                                         key={index}
                                         index={index}
-                                        options={[]}
+                                        options={mealsList}
                                         setValue={setSelectedIngredients}
-                                        inputType={"meal"}/>
+                                        inputType={"meal"}
+                                        hideIndex
+                                    />
                                 )
                             })}
                         </TabsContent>
