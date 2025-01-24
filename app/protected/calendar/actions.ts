@@ -75,7 +75,7 @@ export const getMealsForDay = async (date: string, userID: string) => {
                     if (Array.isArray(ingredient)) {
                         return ingredient.map((ing: any) => ing.name);
                     }
-                    return ingredient.name;
+                    return ingredient.name.toLowerCase();
                 });
             }
             return [];
@@ -102,7 +102,7 @@ export const getMealsForDay = async (date: string, userID: string) => {
 
                 return ingredientsArray.map((ing: any) => {
                     const ingredientDetail = ingredientsDetails.find(
-                        (detail) => detail.name === ing.name
+                        (detail) => detail.name.toLowerCase() === ing.name.toLowerCase()
                     );
 
                     if (ingredientDetail) {

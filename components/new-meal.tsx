@@ -15,8 +15,7 @@ import {IngredientInput} from "@/components/calendar/ingredient-input";
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select";
-import {addNewMealData} from "@/app/protected/calendar/actions";
-import moment from "moment";
+import {addNewMealData, getMealsForDay} from "@/app/protected/calendar/actions";
 import {useCalendarStore} from "@/app/context/calendar";
 
 type Props = {
@@ -34,6 +33,7 @@ export const NewMeal = ({mealOptions}: Props) => {
     const [mealType, setMealType] = useState<string | undefined>(undefined)
     const [mealsList, setMealsList] = useState<any>([])
 
+    const setMeals = useCalendarStore((state) => state.setMeals)
     const {selectedDate} = useCalendarStore((state) => state)
 
     const getIngredientsList = async () => {
@@ -73,11 +73,25 @@ export const NewMeal = ({mealOptions}: Props) => {
         fetchData()
     }, [])
 
+    const getMeals = async () => {
+        return await getMealsForDay(selectedDate, "a6801067-87a6-406b-a73a-94e26e89f9b7")
+    }
+
+    const fetchMeals = async () => {
+        const fetchData = async () => {
+            const res = await getMeals()
+            setMeals(res)
+        }
+
+        fetchData()
+    }
+
     const addNewMeal = () => {
         if (!selectedIngredients || !selectedMeals) return
 
         setIsOpen(false)
         addNewMealData(selectedIngredients, mealType, selectedDate)
+        fetchMeals()
     }
 
     return (

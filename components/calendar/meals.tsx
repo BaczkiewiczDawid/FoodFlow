@@ -2,7 +2,7 @@
 
 import {MealsList} from "@/components/calendar/meals-list";
 import {getMealsForDay} from "@/app/protected/calendar/actions";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useCalendarStore} from "@/app/context/calendar";
 import {MealData} from "@/app/types/meal-data";
 import {Skeleton} from "@/components/ui/skeleton";
@@ -30,7 +30,7 @@ export const Meals = ({mealOptions}: Props) => {
         return await getMealsForDay(selectedDate, "a6801067-87a6-406b-a73a-94e26e89f9b7")
     }
 
-    useEffect(() => {
+    const fetchMeals = async () => {
         setIsLoading(true)
         const fetchData = async () => {
             const res = await getMeals()
@@ -39,6 +39,10 @@ export const Meals = ({mealOptions}: Props) => {
         }
 
         fetchData()
+    }
+
+    useEffect(() => {
+        fetchMeals()
     }, [selectedDate])
 
     return (
@@ -48,7 +52,7 @@ export const Meals = ({mealOptions}: Props) => {
 
                 return (
                     <div key={index}>
-                        {isLoading ? <Skeleton className={"w-full h-12"} /> :
+                        {isLoading ? <Skeleton className={"w-full h-12"}/> :
                             <MealsList
                                 mealType={option.name}
                                 mealData={mealData[0]?.ingredients}
