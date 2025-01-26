@@ -17,8 +17,7 @@ import {useApi} from "@/helpers/useApi";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select";
 import {addNewMealData, getMealsForDay} from "@/app/protected/calendar/actions";
 import {useCalendarStore} from "@/app/context/calendar";
-import {toast} from "sonner";
-import {Toaster} from "@/components/ui/sonner";
+import {Toaster} from "../components/ui/sonner";
 import {useToast} from "@/hooks/use-toast";
 
 type Props = {

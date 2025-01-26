@@ -23,6 +23,7 @@ import {
 import {useState} from "react";
 import {useApi} from "@/helpers/useApi";
 import {useToast} from "@/hooks/use-toast";
+import {Toaster} from "../../../../components/ui/sonner";
 
 export const NewIngredient = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -119,6 +120,7 @@ export const NewIngredient = () => {
                     <Button onClick={addNewIngredient} type="button">Save changes</Button>
                 </DialogFooter>
             </DialogContent>
+            <Toaster />
         </Dialog>
     )
 }

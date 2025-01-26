@@ -6,6 +6,7 @@ import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {useEffect, useState} from "react";
 import {useToast} from "@/hooks/use-toast";
+import {Toaster} from "../../../../components/ui/sonner";
 
 export const IngredientsList = () => {
     const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([])
@@ -56,6 +57,7 @@ export const IngredientsList = () => {
                     )
                 })}
             </ul>
+            <Toaster/>
         </>
     )
 }
