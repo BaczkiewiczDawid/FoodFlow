@@ -5,6 +5,8 @@ import {IngredientItem} from "@/app/protected/ingredients/components/ingredient-
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {useEffect, useState} from "react";
+import {useToast} from "@/hooks/use-toast";
+import {Toaster} from "../../../../components/ui/sonner";
 
 export const IngredientsList = () => {
     const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([])
@@ -26,6 +28,10 @@ export const IngredientsList = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await getIngredientsList()
+
+            if (!response) {
+                useToast(false, "fetch", "ingredients")
+            }
 
             setIngredientsList(response.data)
             setIsLoading(false)
@@ -51,6 +57,7 @@ export const IngredientsList = () => {
                     )
                 })}
             </ul>
+            <Toaster/>
         </>
     )
 }

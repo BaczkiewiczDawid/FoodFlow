@@ -17,6 +17,8 @@ import {useApi} from "@/helpers/useApi";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../components/ui/select";
 import {addNewMealData, getMealsForDay} from "@/app/protected/calendar/actions";
 import {useCalendarStore} from "@/app/context/calendar";
+import {Toaster} from "../components/ui/sonner";
+import {useToast} from "@/hooks/use-toast";
 
 type Props = {
     mealOptions: {
@@ -66,6 +68,10 @@ export const NewMeal = ({mealOptions}: Props) => {
             const ingredientsResponse = await getIngredientsList()
             const mealsResponse = await getMealsList()
 
+            if (!ingredientsResponse || !mealsResponse) {
+                useToast(false, "fetch", "ingredients or meals")
+            }
+
             setUserIngredients(ingredientsResponse.data)
             setMealsList(mealsResponse)
         }
@@ -86,12 +92,14 @@ export const NewMeal = ({mealOptions}: Props) => {
         fetchData()
     }
 
-    const addNewMeal = () => {
+    const addNewMeal = async () => {
         if (!selectedIngredients || !selectedMeals) return
 
         setIsOpen(false)
-        addNewMealData(selectedIngredients, mealType, selectedDate)
+        const res = await addNewMealData(selectedIngredients, mealType, selectedDate)
         fetchMeals()
+
+        useToast(res.status, "add", "ingredient(s)")
     }
 
     return (
@@ -165,6 +173,7 @@ export const NewMeal = ({mealOptions}: Props) => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+            <Toaster/>
         </div>
     )
 }

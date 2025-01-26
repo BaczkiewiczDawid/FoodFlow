@@ -4,6 +4,8 @@ import {MealCard} from "@/components/meal-card";
 import {useEffect, useMemo, useRef, useState} from "react";
 import {Ingredient} from "@/app/types/ingredient";
 import {Skeleton} from "@/components/ui/skeleton";
+import {useToast} from "@/hooks/use-toast";
+import {Toaster} from "../../components/ui/sonner";
 
 type Props = {
     initialState: {
@@ -42,6 +44,7 @@ export const MealsView = ({initialState, limit}: Props) => {
         const newMeals = await response.json();
 
         if (newMeals.length === 0) {
+            useToast(false, "fetch", "meals");
             setHasMore(false);
         } else {
             setMealsList((prevMeals) => [...prevMeals, ...newMeals]);
@@ -110,6 +113,7 @@ export const MealsView = ({initialState, limit}: Props) => {
                     </div>
                 )}
             </div>
+            <Toaster/>
         </div>
     )
 }

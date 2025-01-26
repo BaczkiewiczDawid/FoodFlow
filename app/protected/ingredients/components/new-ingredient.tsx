@@ -22,6 +22,8 @@ import {
 } from "../../../../components/ui/select";
 import {useState} from "react";
 import {useApi} from "@/helpers/useApi";
+import {useToast} from "@/hooks/use-toast";
+import {Toaster} from "../../../../components/ui/sonner";
 
 export const NewIngredient = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -40,7 +42,9 @@ export const NewIngredient = () => {
         setLoading(true);
         try {
             const response = await fetchData();
-            console.log("Response:", response);
+
+            useToast(response.status, "add", "ingredient");
+
             setIsOpen(false);
         } catch (err) {
             console.error("Error:", err);
@@ -116,6 +120,7 @@ export const NewIngredient = () => {
                     <Button onClick={addNewIngredient} type="button">Save changes</Button>
                 </DialogFooter>
             </DialogContent>
+            <Toaster />
         </Dialog>
     )
 }
