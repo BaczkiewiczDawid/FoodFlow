@@ -6,7 +6,7 @@ import {Input} from "@/components/ui/input";
 import {useSettingsStore} from "@/app/context/settings";
 
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Combobox} from "@/components/combobox";
 
 export const SettingsList = () => {
@@ -24,9 +24,70 @@ export const SettingsList = () => {
     const setGoal = useSettingsStore(state => state.setGoal)
     const gender = useSettingsStore(state => state.gender)
     const setGender = useSettingsStore(state => state.setGender)
+    const activity = useSettingsStore(state => state.activity)
+    const setActivity = useSettingsStore(state => state.setActivity)
+    const BMR = useSettingsStore(state => state.BMR)
+    const setBMR = useSettingsStore(state => state.setBMR)
 
-    const goalsList = ["lose", "keep", "gain"]
-    const genderList = ["male", "female"]
+    const goalsList = [{
+        value: "keep",
+        displayValue: "Keep weight"
+    }, {
+        value: "lose",
+        displayValue: "Lose weight"
+    }, {
+        value: "gain",
+        displayValue: "Gain weight"
+    }]
+    const genderList = [
+        {
+            value: "male",
+            displayValue: "Male"
+        },
+        {
+            value: "female",
+            displayValue: "Female"
+        }]
+    const activityList = [
+        {
+            value: 1.2,
+            displayValue: "No activity"
+        },
+        {
+            value: 1.375,
+            displayValue: "Low activity"
+        },
+        {
+            value: 1.55,
+            displayValue: "Medium activity"
+        },
+        {
+            value: 1.725,
+            displayValue: "High activity"
+        },
+        {
+            value: 1.9,
+            displayValue: "Very high activity"
+        }
+    ]
+
+    const calculateCalories = () => {
+        if (gender === "male") {
+            const basicBMR = 66.5 + (13.75 * weight) + (5 * height) - (6.75 * age)
+
+            return basicBMR * Number(activity)
+        } else {
+            const basicBMR = 655.1 + (9.563 * weight) + (1.85 * height) - (4.676 * age)
+
+            return basicBMR * Number(activity)
+        }
+    }
+
+    useEffect(() => {
+        const calculatedBMR = calculateCalories()
+
+        setBMR(calculatedBMR)
+    }, [weight, height, age, activity, gender])
 
     return (
         <div className={"flex flex-col justify-between gap-y-4 w-full md:w-1/2 lg:w-1/3"}>
@@ -55,6 +116,10 @@ export const SettingsList = () => {
             <div className={"flex flex-col gap-y-2"}>
                 <span>Gender</span>
                 <Combobox data={genderList} defaultValue={gender} onSelect={setGender}/>
+            </div>
+            <div className={"flex flex-col gap-y-2"}>
+                <span>Daily activity</span>
+                <Combobox data={activityList} defaultValue={activity} onSelect={setActivity}/>
             </div>
         </div>
     )
