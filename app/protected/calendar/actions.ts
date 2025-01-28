@@ -10,8 +10,6 @@ export const addNewMealData = async (ingredients: any, mealType: string | undefi
     if (!mealType) throw new Error("Meal type is required")
 
     try {
-        console.log(selectedDate)
-
         const data = await db.insert(dailyData).values({
             date: selectedDate,
             userID: "a6801067-87a6-406b-a73a-94e26e89f9b7",
@@ -134,4 +132,22 @@ export const getMealsForDay = async (date: string, userID: string) => {
     }
 };
 
+export const deleteIngredient = async (name: string, type: string, date: string) => {
+    try {
+        await db
+            .delete(dailyData)
+            .where(
+                and(
+                    eq(dailyData.type, type.toLowerCase()),
+                    eq(dailyData.userID, "a6801067-87a6-406b-a73a-94e26e89f9b7"),
+                    eq(dailyData.date, date),
+                    sql`${dailyData.ingredients} @> ${JSON.stringify([{ name }])}`
+                )
+            )
 
+        return {success: true, message: "Ingredient deleted successfully."};
+    } catch (err) {
+        console.error(err);
+        throw new Error("Failed to delete ingredient.");
+    }
+};
