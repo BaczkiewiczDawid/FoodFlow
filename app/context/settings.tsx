@@ -9,6 +9,8 @@ type Props = {
     setAge: (age: number) => void
     goal: string,
     setGoal: (goal: string) => void
+    gender: string,
+    setGender: (gender: string) => void
 }
 
 export const useSettingsStore = create<Props>((set) => ({
@@ -20,4 +22,6 @@ export const useSettingsStore = create<Props>((set) => ({
     setAge: (age: number) => set({age: age}),
     goal: "keep",
     setGoal: (goal: string) => set({goal: goal}),
+    gender: "male",
+    setGender: (gender: string) => set({gender: gender})
 }))

@@ -4,11 +4,10 @@ import {Switch} from "@/components/ui/switch";
 import {useTheme} from "next-themes";
 import {Input} from "@/components/ui/input";
 import {useSettingsStore} from "@/app/context/settings";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {Button} from "@/components/ui/button";
-import {Command, CommandGroup, CommandItem, CommandList} from "@/components/ui/command";
+
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
 import {useState} from "react";
+import {Combobox} from "@/components/combobox";
 
 export const SettingsList = () => {
     const {setTheme} = useTheme()
@@ -23,8 +22,11 @@ export const SettingsList = () => {
     const setAge = useSettingsStore(state => state.setAge)
     const goal = useSettingsStore(state => state.goal)
     const setGoal = useSettingsStore(state => state.setGoal)
+    const gender = useSettingsStore(state => state.gender)
+    const setGender = useSettingsStore(state => state.setGender)
 
     const goalsList = ["lose", "keep", "gain"]
+    const genderList = ["male", "female"]
 
     return (
         <div className={"flex flex-col justify-between gap-y-4 w-full md:w-1/2 lg:w-1/3"}>
@@ -48,35 +50,11 @@ export const SettingsList = () => {
             </div>
             <div className={"flex flex-col gap-y-2"}>
                 <span>Goal</span>
-                <Popover open={isOpen} onOpenChange={setIsOpen}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant={"outline"}
-                            aria-expanded={isOpen}
-                            role={"combobox"}
-                            className={"text-left px-4 py-2 rounded-md w-1/4"}>{firstLetterToUpperCase(goal)}</Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0">
-                        <Command>
-                            <CommandList>
-                                <CommandGroup>
-                                    {goalsList.map((goal) => (
-                                        <CommandItem
-                                            key={goal}
-                                            value={goal}
-                                            onSelect={(currentValue) => {
-                                                setGoal(currentValue)
-                                                setIsOpen(false)
-                                            }}
-                                        >
-                                            {firstLetterToUpperCase(goal)}
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
+                <Combobox data={goalsList} defaultValue={goal} onSelect={setGoal}/>
+            </div>
+            <div className={"flex flex-col gap-y-2"}>
+                <span>Gender</span>
+                <Combobox data={genderList} defaultValue={gender} onSelect={setGender}/>
             </div>
         </div>
     )
