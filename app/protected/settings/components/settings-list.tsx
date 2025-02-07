@@ -6,10 +6,11 @@ import {Input} from "@/components/ui/input";
 import {useSettingsStore} from "@/app/context/settings";
 
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {Combobox} from "@/components/combobox";
 import {useApi} from "@/helpers/useApi";
 import {updateSettings} from "@/app/protected/settings/actions";
+import {useDebounce} from "@/hooks/use-debounce";
 
 export const SettingsList = () => {
     const {setTheme} = useTheme()
@@ -31,17 +32,15 @@ export const SettingsList = () => {
     const BMR = useSettingsStore(state => state.BMR)
     const setBMR = useSettingsStore(state => state.setBMR)
 
+    const values = useMemo(() => ({
+        weight, height, age, goal, gender, activity, BMR
+    }), [weight, height, age, goal, gender, activity, BMR]);
+
+    const debouncedValues = useDebounce(values, 500);
+
     useEffect(() => {
-        updateSettings({weight, height, age, goal, gender, activity, BMR})
-    }, [
-        weight,
-        height,
-        age,
-        goal,
-        gender,
-        activity,
-        BMR
-    ]);
+        updateSettings(debouncedValues)
+    }, [debouncedValues]);
 
     const goalsList = [{
         value: "keep",
