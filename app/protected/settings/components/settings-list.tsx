@@ -119,7 +119,10 @@ export const SettingsList = () => {
             </div>
             <div className={"flex flex-col gap-y-2"}>
                 <span>Daily activity</span>
-                <Combobox data={activityList} defaultValue={activity} onSelect={setActivity}/>
+                <Combobox
+                    data={activityList}
+                    defaultValue={activityList.find((item) => item.value === Number(activity))?.displayValue ?? ""}
+                    onSelect={setActivity}/>
             </div>
         </div>
     )

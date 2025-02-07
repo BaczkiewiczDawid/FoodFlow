@@ -23,7 +23,7 @@ export const Combobox = ({data, defaultValue, onSelect}: Props) => {
                     variant={"outline"}
                     aria-expanded={isOpen}
                     role={"combobox"}
-                    className={"text-left px-4 py-2 rounded-md w-fit"}>{firstLetterToUpperCase(defaultValue)}</Button>
+                    className={"px-4 py-2 rounded-md w-full text-left justify-start"}>{firstLetterToUpperCase(defaultValue)}</Button>
             </PopoverTrigger>
             <PopoverContent className="p-0">
                 <Command>
@@ -37,6 +37,7 @@ export const Combobox = ({data, defaultValue, onSelect}: Props) => {
                                         onSelect(currentValue)
                                         setIsOpen(false)
                                     }}
+                                    className={"cursor-pointer"}
                                 >
                                     {el.displayValue}
                                 </CommandItem>
