@@ -8,6 +8,8 @@ import {useSettingsStore} from "@/app/context/settings";
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
 import {useEffect, useState} from "react";
 import {Combobox} from "@/components/combobox";
+import {useApi} from "@/helpers/useApi";
+import {updateSettings} from "@/app/protected/settings/actions";
 
 export const SettingsList = () => {
     const {setTheme} = useTheme()
@@ -28,6 +30,18 @@ export const SettingsList = () => {
     const setActivity = useSettingsStore(state => state.setActivity)
     const BMR = useSettingsStore(state => state.BMR)
     const setBMR = useSettingsStore(state => state.setBMR)
+
+    useEffect(() => {
+        updateSettings({weight, height, age, goal, gender, activity, BMR})
+    }, [
+        weight,
+        height,
+        age,
+        goal,
+        gender,
+        activity,
+        BMR
+    ]);
 
     const goalsList = [{
         value: "keep",

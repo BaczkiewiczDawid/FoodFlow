@@ -10,7 +10,7 @@ type Props = {
         displayValue: string
     }[]
     defaultValue: string
-    onSelect: (value: string) => void
+    onSelect: (value: any) => void
 }
 
 export const Combobox = ({data, defaultValue, onSelect}: Props) => {

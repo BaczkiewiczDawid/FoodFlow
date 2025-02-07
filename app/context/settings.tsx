@@ -11,8 +11,8 @@ type Props = {
     setGoal: (goal: string) => void
     gender: string,
     setGender: (gender: string) => void
-    activity: string,
-    setActivity: (activity: string) => void
+    activity: number,
+    setActivity: (activity: number) => void
     BMR: number,
     setBMR: (BMR: number) => void
 }
@@ -28,8 +28,8 @@ export const useSettingsStore = create<Props>((set) => ({
     setGoal: (goal: string) => set({goal: goal}),
     gender: "male",
     setGender: (gender: string) => set({gender: gender}),
-    activity: "1.2",
-    setActivity: (activity: string) => set({activity: activity}),
+    activity: 1.2,
+    setActivity: (activity: number) => set({activity: activity}),
     BMR: 0,
     setBMR: (BMR: number) => set({BMR: BMR})
 }))
