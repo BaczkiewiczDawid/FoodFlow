@@ -1,4 +1,6 @@
 import {create} from "zustand";
+import {getSettings} from "@/app/protected/settings/actions";
+import {useEffect} from "react";
 
 type Props = {
     weight: number,
@@ -17,19 +19,21 @@ type Props = {
     setBMR: (BMR: number) => void
 }
 
-export const useSettingsStore = create<Props>((set) => ({
-    weight: 75,
-    setWeight: (weight: number) => set({weight: weight}),
-    height: 180,
-    setHeight: (height: number) => set({height: height}),
-    age: 18,
-    setAge: (age: number) => set({age: age}),
-    goal: "keep",
-    setGoal: (goal: string) => set({goal: goal}),
-    gender: "male",
-    setGender: (gender: string) => set({gender: gender}),
-    activity: 1.2,
-    setActivity: (activity: number) => set({activity: activity}),
-    BMR: 0,
-    setBMR: (BMR: number) => set({BMR: BMR})
-}))
+export const useSettingsStore = create<Props>((set) => {
+    return {
+        weight: 75,
+        setWeight: (weight: number) => set({weight: weight}),
+        height: 180,
+        setHeight: (height: number) => set({height: height}),
+        age: 18,
+        setAge: (age: number) => set({age: age}),
+        goal: "keep",
+        setGoal: (goal: string) => set({goal: goal}),
+        gender: "male",
+        setGender: (gender: string) => set({gender: gender}),
+        activity: 1.2,
+        setActivity: (activity: number) => set({activity: activity}),
+        BMR: 0,
+        setBMR: (BMR: number) => set({BMR: BMR})
+    }
+})
