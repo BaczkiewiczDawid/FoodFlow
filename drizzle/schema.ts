@@ -41,3 +41,16 @@ export const mealsList = pgTable("mealsList", {
     description: varchar("description").notNull(),
     details: varchar("details").notNull(),
 })
+
+export const userSettings = pgTable("userSettings", {
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP(3)`).notNull(),
+    email: varchar("email").notNull(),
+    weight: integer("weight").notNull(),
+    height: integer("height").notNull(),
+    age: integer("age").notNull(),
+    goal: varchar("goal").notNull(),
+    gender: varchar("gender").notNull(),
+    activity: integer("activity").notNull(),
+    bmr: integer("bmr").notNull()
+})

@@ -5,6 +5,7 @@ import {MealCard} from "@/components/meal-card";
 import {getMealsForDay} from "@/app/protected/calendar/actions";
 import {getDates} from "@/hooks/get-dates";
 import {calculateMacro} from "@/hooks/calculate-macro";
+import {getBMR} from "@/app/protected/actions";
 
 export default async function ProtectedPage() {
     const supabase = await createClient();
@@ -23,12 +24,18 @@ export default async function ProtectedPage() {
 
     const totalMacro = calculateMacro(mealsData)
 
+    const BMR = await getBMR() ?? 2500
+
+    const protein = Number((BMR * 0.25 / 4).toFixed(1))
+    const fat = Number((BMR * 0.25 / 9).toFixed(1))
+    const carbs = Number((BMR * 0.5 / 4).toFixed(1))
+
     const kcalData = {
         labels: ["Calories, Total"],
         datasets: [
             {
                 label: "Calories",
-                data: [Number(totalMacro.kcal.toFixed(0)), 2200],
+                data: [Number(totalMacro.kcal.toFixed(0)), BMR],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],
@@ -42,7 +49,7 @@ export default async function ProtectedPage() {
         datasets: [
             {
                 label: "Calories",
-                data: [Number(totalMacro.carbs.toFixed(1)), 350],
+                data: [Number(totalMacro.carbs.toFixed(1)), carbs],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],
@@ -56,7 +63,7 @@ export default async function ProtectedPage() {
         datasets: [
             {
                 label: "Calories",
-                data: [Number(totalMacro.protein.toFixed(1)), 150],
+                data: [Number(totalMacro.protein.toFixed(1)), protein],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],
@@ -70,7 +77,7 @@ export default async function ProtectedPage() {
         datasets: [
             {
                 label: "Calories",
-                data: [Number(totalMacro.fat.toFixed(1)), 75],
+                data: [Number(totalMacro.fat.toFixed(1)), fat],
                 backgroundColor: [
                     "rgb(255, 99, 132)", "rgb(225,225,225)"
                 ],

@@ -9,7 +9,7 @@ export default async function Page() {
 
     return (
         <div className={"w-full ml-2"}>
-            <h1 className={"text-xl"}>Meals list</h1>
+            <h1 className={"text-xl font-bold"}>Meals list</h1>
             <MealsView initialState={meals} limit={limit}/>
         </div>
     )
