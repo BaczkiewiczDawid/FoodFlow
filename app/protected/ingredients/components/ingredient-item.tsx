@@ -14,14 +14,16 @@ import {
 import {Input} from "../../../../components/ui/input";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../../../components/ui/select";
 import {Button} from "../../../../components/ui/button";
+import {User} from "@supabase/auth-js";
 
 type Props = {
     name: string,
     amount: number
     type: "grammage" | "piece"
+    user: User
 }
 
-export const IngredientItem = ({name, amount, type}: Props) => {
+export const IngredientItem = ({name, amount, type, user}: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [newAmount, setNewAmount] = useState<number>(amount);
     const [newType, setNewType] = useState<string>(type);
@@ -32,7 +34,7 @@ export const IngredientItem = ({name, amount, type}: Props) => {
                 name,
                 amount,
                 type,
-                email: "baczkiewicz.dawid22@gmail.com"
+                email: user.email
             })
         } catch (err) {
             console.error(err)
@@ -46,7 +48,7 @@ export const IngredientItem = ({name, amount, type}: Props) => {
                 name,
                 amount: newAmount,
                 type: newType,
-                email: "baczkiewicz.dawid22@gmail.com"
+                email: user.email
             })
         } catch (err) {
             console.error(err)
