@@ -12,9 +12,19 @@ import {
     DialogTitle, DialogTrigger
 } from "../../../../components/ui/dialog";
 import {Input} from "../../../../components/ui/input";
-import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "../../../../components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "../../../../components/ui/select";
 import {Button} from "../../../../components/ui/button";
 import {User} from "@supabase/auth-js";
+import {useToast} from "@/hooks/use-toast";
+import {Ingredient} from "@/app/types/ingredient";
+import {useIngredientsStore} from "@/app/context/ingredients";
 
 type Props = {
     name: string,
@@ -27,6 +37,7 @@ export const IngredientItem = ({name, amount, type, user}: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [newAmount, setNewAmount] = useState<number>(amount);
     const [newType, setNewType] = useState<string>(type);
+    const setIngredientsList = useIngredientsStore(state => state.setIngredientsList)
 
     const deleteItem = () => {
         try {
@@ -36,8 +47,15 @@ export const IngredientItem = ({name, amount, type, user}: Props) => {
                 type,
                 email: user.email
             })
+
+            setIngredientsList((prev: Ingredient[]) =>
+                prev.filter((ingredient) => ingredient.name !== name)
+            );
+
+            useToast(true, "delete", "ingredient")
         } catch (err) {
             console.error(err)
+            useToast(false, "delete", "ingredient")
         }
     }
 
@@ -50,8 +68,19 @@ export const IngredientItem = ({name, amount, type, user}: Props) => {
                 type: newType,
                 email: user.email
             })
+
+            setIngredientsList((prev: Ingredient[]) =>
+                prev.map((ingredient) =>
+                    ingredient.name === name
+                        ? {...ingredient, amount: newAmount, type: newType as Ingredient["type"]}
+                        : ingredient
+                )
+            );
+
+            useToast(true, "edit", "ingredient")
         } catch (err) {
             console.error(err)
+            useToast(false, "edit", "ingredient")
         }
     }
 
@@ -60,7 +89,7 @@ export const IngredientItem = ({name, amount, type, user}: Props) => {
             <div className={"flex justify-between"}>
                 <span>{name}</span>
                 <div className={"flex flex-row items-center justify-between"}>
-                    <span>{amount} {type}</span>
+                    <span>{amount} {type === "grammage" ? "g" : type}</span>
                     <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>
                             <PencilSquareIcon onClick={() => setIsOpen(true)}

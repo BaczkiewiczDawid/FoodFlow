@@ -28,7 +28,7 @@ export default async function ProtectedPage() {
                 label: "Calories",
                 data: [Number(totalMacro.kcal.toFixed(0)), BMR],
                 backgroundColor: [
-                    "rgb(255, 99, 132)", "rgb(225,225,225)"
+                    "rgb(147, 197, 253)", "rgb(225,225,225)"
                 ],
                 borderWidth: 0,
                 weight: 2,
@@ -42,7 +42,7 @@ export default async function ProtectedPage() {
                 label: "Calories",
                 data: [Number(totalMacro.carbs.toFixed(1)), carbs],
                 backgroundColor: [
-                    "rgb(255, 99, 132)", "rgb(225,225,225)"
+                    "rgb(147, 197, 253)", "rgb(225,225,225)"
                 ],
                 borderWidth: 0,
                 weight: 2,
@@ -56,7 +56,7 @@ export default async function ProtectedPage() {
                 label: "Calories",
                 data: [Number(totalMacro.protein.toFixed(1)), protein],
                 backgroundColor: [
-                    "rgb(255, 99, 132)", "rgb(225,225,225)"
+                    "rgb(147, 197, 253)", "rgb(225,225,225)"
                 ],
                 borderWidth: 0,
                 weight: 2,
@@ -70,7 +70,7 @@ export default async function ProtectedPage() {
                 label: "Calories",
                 data: [Number(totalMacro.fat.toFixed(1)), fat],
                 backgroundColor: [
-                    "rgb(255, 99, 132)", "rgb(225,225,225)"
+                    "rgb(147, 197, 253)", "rgb(225,225,225)"
                 ],
                 borderWidth: 0,
                 weight: 2,

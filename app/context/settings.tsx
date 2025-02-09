@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {getSettings} from "@/app/protected/settings/actions";
 import {useEffect} from "react";
+import {useTheme} from "next-themes";
 
 type Props = {
     weight: number,

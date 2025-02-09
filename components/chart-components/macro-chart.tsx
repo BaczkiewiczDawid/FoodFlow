@@ -8,7 +8,7 @@ type Props = {
 
 export const MacroChart = ({data, name}: Props) => {
     return (
-        <div className={"flex flex-col justify-center items-center"}>
+        <div className={"flex flex-col justify-start items-center"}>
             <p>{name}</p>
             <Chart className={"py-2 items-center flex justify-center"} data={data}/>
             <p className={"text-center text-sm"}>{data.datasets[0].data[0]} of {data.datasets[0].data[1]}</p>

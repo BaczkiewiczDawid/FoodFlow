@@ -25,7 +25,7 @@ type SettingsListProps = {
 }
 
 export const SettingsList = () => {
-    const {setTheme} = useTheme()
+    const {setTheme, theme} = useTheme()
 
     const weight = useSettingsStore(state => state.weight)
     const setWeight = useSettingsStore(state => state.setWeight)
@@ -150,7 +150,7 @@ export const SettingsList = () => {
                 <div>
                     <div className={"flex items-center justify-between mt-8"}>
                         <span>Dark mode</span>
-                        <Switch onCheckedChange={(val) => setTheme(val ? "dark" : "light")}/>
+                        <Switch defaultChecked={theme === "dark"} onCheckedChange={(val) => setTheme(val ? "dark" : "light")}/>
                     </div>
                     <div className={"flex flex-col gap-y-2 mt-8"}>
                         <span>Weight</span>

@@ -81,6 +81,11 @@ export const NewMeal = ({mealOptions, user}: Props) => {
         fetchData()
     }, [])
 
+    useEffect(() => {
+        setSelectedMeals([])
+        setSelectedIngredients([])
+    }, [isOpen]);
+
     const getMeals = async () => {
         return await getMealsForDay(selectedDate, "a6801067-87a6-406b-a73a-94e26e89f9b7")
     }
@@ -109,7 +114,7 @@ export const NewMeal = ({mealOptions, user}: Props) => {
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <button
-                        className={"bg-amber-400 bottom-4 right-4 fixed w-12 h-12 text-center rounded-full text-4xl cursor-pointer"}
+                        className={"bg-blue-300 bottom-4 right-4 fixed w-12 h-12 text-center rounded-full text-4xl cursor-pointer text-background lg:right-8"}
                     >+
                     </button>
                 </DialogTrigger>

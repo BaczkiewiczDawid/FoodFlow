@@ -1,10 +1,10 @@
 import {toast} from "sonner";
 
-export const useToast = (status: boolean, type: "add" | "delete" | "fetch", name: string) => {
+export const useToast = (status: boolean, type: "add" | "delete" | "fetch" | "edit", name: string) => {
     const statusMessage = status ? "Successfully" : "Failed to"
     let typeMessage = ""
 
-    switch(type) {
+    switch (type) {
         case "add":
             typeMessage = "added"
             break
@@ -13,6 +13,9 @@ export const useToast = (status: boolean, type: "add" | "delete" | "fetch", name
             break
         case "fetch":
             typeMessage = "fetch"
+            break
+        case "edit":
+            typeMessage = "edit"
     }
 
     return toast(`${statusMessage} ${typeMessage}`, {
