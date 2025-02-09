@@ -8,7 +8,7 @@ export default async function Page() {
     const meals = await getMeals(10, offset)
 
     return (
-        <div className={"w-full ml-2"}>
+        <div className={"w-full ml-2 pr-4"}>
             <h1 className={"text-xl font-bold"}>Meals list</h1>
             <MealsView initialState={meals} limit={limit}/>
         </div>
