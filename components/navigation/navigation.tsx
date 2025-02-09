@@ -17,10 +17,15 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "../../components/ui/sidebar"
+} from "@/components/ui/sidebar"
 import Link from "next/link";
+import {useRouter} from "next/navigation";
+import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 
 export const Navigation = () => {
+    const router = useRouter();
+    const supabase = createClientComponentClient();
+
     const navigationItems = [
         {
             title: "Dashboard",
@@ -49,6 +54,15 @@ export const Navigation = () => {
         }
     ]
 
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error("Error while logging out:", error.message);
+        } else {
+            router.push("/");
+        }
+    };
+
     return (
         <Sidebar>
             <SidebarContent>
@@ -73,11 +87,9 @@ export const Navigation = () => {
             <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                            <Link href={"/"}>
-                                <ArrowLeftEndOnRectangleIcon className={"h-6 w-6 text-red-500"}/>
-                                <span className={"text-red-500"}>Log out</span>
-                            </Link>
+                        <SidebarMenuButton onClick={handleLogout}>
+                            <ArrowLeftEndOnRectangleIcon className={"h-6 w-6 text-red-500"} />
+                            <span className={"text-red-500"}>Log out</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
