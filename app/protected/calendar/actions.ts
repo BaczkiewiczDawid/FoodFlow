@@ -5,17 +5,25 @@ import {dailyData, ingredientsList, userIngredients} from "@/drizzle/schema";
 import {and, eq, inArray, sql} from "drizzle-orm";
 import {Ingredient} from "@/app/types/ingredient";
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
+import {getAuthUser} from "@/helpers/get-auth-user";
 
 export const addNewMealData = async (ingredients: any, mealType: string | undefined, selectedDate: string) => {
-    if (!mealType) throw new Error("Meal type is required")
+    if (!mealType) return {
+        status: false,
+        data: [],
+        message: "Meal type not found"
+    }
+    const user = await getAuthUser()
+
+    if (!user.email) throw new Error("User not found")
 
     try {
         const data = await db.insert(dailyData).values({
             date: selectedDate,
-            userID: "a6801067-87a6-406b-a73a-94e26e89f9b7",
             mealsEaten: {},
             ingredients: ingredients,
-            type: mealType
+            type: mealType,
+            email: user.email
         })
 
         await updateMyIngredients(ingredients)
@@ -59,11 +67,15 @@ const updateMyIngredients = async (ingredients: Ingredient[]) => {
 };
 
 export const getMealsForDay = async (date: string, userID: string) => {
+    const user = await getAuthUser()
+
+    if (!user.email) throw new Error("User not found")
+
     try {
         const data: any[] = await db
             .select()
             .from(dailyData)
-            .where(and(eq(dailyData.date, date), eq(dailyData.userID, userID)));
+            .where(and(eq(dailyData.date, date), eq(dailyData.email, user.email)));
 
         if (data.length === 0) return [];
 
@@ -133,13 +145,17 @@ export const getMealsForDay = async (date: string, userID: string) => {
 };
 
 export const deleteIngredient = async (name: string, type: string, date: string) => {
+    const user = await getAuthUser()
+
+    if (!user.email) throw new Error("User not found")
+
     try {
         await db
             .delete(dailyData)
             .where(
                 and(
                     eq(dailyData.type, type.toLowerCase()),
-                    eq(dailyData.userID, "a6801067-87a6-406b-a73a-94e26e89f9b7"),
+                    eq(dailyData.email, user.email),
                     eq(dailyData.date, date),
                     sql`${dailyData.ingredients} @> ${JSON.stringify([{ name }])}`
                 )

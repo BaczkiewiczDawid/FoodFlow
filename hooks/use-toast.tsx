@@ -6,7 +6,11 @@ export const useToast = (status: boolean, type: "add" | "delete" | "fetch" | "ed
 
     switch (type) {
         case "add":
-            typeMessage = "added"
+            if (status) {
+                typeMessage = "added"
+            } else {
+                typeMessage = "add"
+            }
             break
         case "delete":
             typeMessage = "deleted"

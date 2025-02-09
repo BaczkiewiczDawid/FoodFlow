@@ -14,10 +14,10 @@ export const dailyData = pgTable("dailyData", {
     id: serial("id").primaryKey(),
     createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP(3)`).notNull(),
     date: date("date").notNull(),
-    userID: uuid("userID").notNull(),
     mealsEaten: json("mealsEaten"),
     ingredients: jsonb("ingredients"),
-    type: varchar("type").notNull()
+    type: varchar("type").notNull(),
+    email: varchar("email").notNull()
 })
 
 export const ingredientsList = pgTable("ingredientsList", {
