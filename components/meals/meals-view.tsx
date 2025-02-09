@@ -6,6 +6,7 @@ import {Ingredient} from "@/app/types/ingredient";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useToast} from "@/hooks/use-toast";
 import {Toaster} from "../../components/ui/sonner";
+import {Dialog, DialogContent, DialogTitle} from "@/components/ui/dialog";
 
 type Props = {
     initialState: {
@@ -74,8 +75,8 @@ export const MealsView = ({initialState, limit}: Props) => {
     }, [observerRef.current, loading, hasMore]);
 
     return (
-        <div className={"flex h-[80%]"}>
-            <div className={"mt-4 md:mt-12 flex flex-col"}>
+        <div className={"flex w-full flex-col lg:flex-row"}>
+            <div className={"w-full lg:w-1/2 mt-4 lg:mt-12 flex flex-col"}>
                 <div className={"flex flex-col gap-y-4"}>
                     {mealsList?.map((meal, index) => {
                         return (
@@ -102,14 +103,29 @@ export const MealsView = ({initialState, limit}: Props) => {
                     <Skeleton className={"w-full h-4"}/>
                 </div>
             </div>
-            <div className={"px-36 mt-4 md:mt-12"}>
+            <div className={"w-full lg:w-1/2 px-8 lg:px-12 mt-4 md:mt-12"}>
                 {selectedMealDetails && (
-                    <div className={"flex flex-col sticky top-8"}>
-                        <h2 className={"text-xl"}>{selectedMealDetails.name}</h2>
-                        <span
-                            className={"font-light text-sm"}>{selectedMealDetails.ingredients?.map((ingredient: Ingredient) => ingredient.name).join(" | ")}</span>
-                        <span className={"font-light text-sm mt-4"}>{selectedMealDetails.description}</span>
-                        <span className={"font-light text-sm mt-4"}>{selectedMealDetails.details}</span>
+                    <div>
+                        <div className={"hidden lg:flex flex-col fixed top-18 min-h-max"}>
+                            <h2 className={"text-xl"}>{selectedMealDetails.name}</h2>
+                            <span className={"font-light text-sm"}>
+                            {selectedMealDetails.ingredients?.map((ingredient: Ingredient) => ingredient.name).join(" | ")}
+                        </span>
+                            <span className={"font-light text-sm mt-4"}>{selectedMealDetails.description}</span>
+                            <span className={"font-light text-sm mt-4"}>{selectedMealDetails.details}</span>
+                        </div>
+                        <Dialog open={!!selectedMeal && window.innerWidth < 1024} onOpenChange={() => setSelectedMeal(undefined)}>
+                            <DialogContent className={"max-w-[80%]"}>
+                                <div className={"flex flex-col sticky top-8"}>
+                                    <DialogTitle className={"text-xl"}>{selectedMealDetails.name}</DialogTitle>
+                                    <span className={"font-light text-sm"}>
+                                        {selectedMealDetails.ingredients?.map((ingredient: Ingredient) => ingredient.name).join(" | ")}
+                                    </span>
+                                    <span className={"font-light text-sm mt-4"}>{selectedMealDetails.description}</span>
+                                    <span className={"font-light text-sm mt-4"}>{selectedMealDetails.details}</span>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 )}
             </div>
