@@ -16,6 +16,13 @@ FoodFlow is a nutrition tracking application built with Next.js, inspired by Fit
 - **Authentication**: Supabase
 - **Database ORM**: Drizzle ORM
 
+## 🛠️ Test Account
+
+You can use the following test credentials to log in and explore the app:
+
+Email: test@gmail.com
+Password: Test123
+
 ## 📦 Installation
 
 Clone the repository and install dependencies:
