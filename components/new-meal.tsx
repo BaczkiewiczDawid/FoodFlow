@@ -107,7 +107,7 @@ export const NewMeal = ({mealOptions}: Props) => {
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <button
-                        className={"bg-amber-400 bottom-4 right-4 fixed w-12 h-12 text-center rounded-full text-4xl cursor-pointer"}
+                        className={"bg-blue-300 bottom-4 right-4 fixed w-12 h-12 text-center rounded-full text-4xl cursor-pointer text-background lg:right-8"}
                     >+
                     </button>
                 </DialogTrigger>
