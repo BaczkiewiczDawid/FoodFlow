@@ -16,7 +16,7 @@ import {
     SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem,
+    SidebarMenuItem, useSidebar,
 } from "@/components/ui/sidebar"
 import Link from "next/link";
 import {useRouter} from "next/navigation";
@@ -25,6 +25,7 @@ import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 export const Navigation = () => {
     const router = useRouter();
     const supabase = createClientComponentClient();
+    const {setOpenMobile} = useSidebar();
 
     const navigationItems = [
         {
@@ -55,7 +56,7 @@ export const Navigation = () => {
     ]
 
     const handleLogout = async () => {
-        const { error } = await supabase.auth.signOut();
+        const {error} = await supabase.auth.signOut();
         if (error) {
             console.error("Error while logging out:", error.message);
         } else {
@@ -73,7 +74,7 @@ export const Navigation = () => {
                             {navigationItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <Link href={`/protected/${item.url}`}>
+                                        <Link href={`/protected/${item.url}`} onClick={() => setOpenMobile(false)}>
                                             <item.icon/>
                                             <span>{item.title}</span>
                                         </Link>
@@ -88,7 +89,7 @@ export const Navigation = () => {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton onClick={handleLogout}>
-                            <ArrowLeftEndOnRectangleIcon className={"h-6 w-6 text-red-500"} />
+                            <ArrowLeftEndOnRectangleIcon className={"h-6 w-6 text-red-500"}/>
                             <span className={"text-red-500"}>Log out</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
