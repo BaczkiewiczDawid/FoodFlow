@@ -24,15 +24,20 @@ import {useState} from "react";
 import {useApi} from "@/helpers/useApi";
 import {useToast} from "@/hooks/use-toast";
 import {Toaster} from "../../../../components/ui/sonner";
+import {User} from "@supabase/auth-js";
 
-export const NewIngredient = () => {
+type Props = {
+    user: User
+}
+
+export const NewIngredient = ({ user }: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
     const [quantity, setQuantity] = useState<number>(0);
     const [type, setType] = useState<string>("grammage");
     const [isLoading, setLoading] = useState<boolean>(false)
 
-    const email = "baczkiewicz.dawid22@gmail.com"
+    const email = user.email
 
     const addNewIngredient = async () => {
         if (!name || !quantity || !type) {
@@ -58,7 +63,7 @@ export const NewIngredient = () => {
             name,
             quantity,
             type,
-            email
+            email,
         })
     }
 

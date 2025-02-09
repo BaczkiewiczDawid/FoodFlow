@@ -19,15 +19,17 @@ import {addNewMealData, getMealsForDay} from "@/app/protected/calendar/actions";
 import {useCalendarStore} from "@/app/context/calendar";
 import {Toaster} from "../components/ui/sonner";
 import {useToast} from "@/hooks/use-toast";
+import {User} from "@supabase/auth-js";
 
 type Props = {
     mealOptions: {
         name: string,
         value: string
     }[]
+    user: User
 }
 
-export const NewMeal = ({mealOptions}: Props) => {
+export const NewMeal = ({mealOptions, user}: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedMeals, setSelectedMeals] = useState<Ingredient[]>([])
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
@@ -41,7 +43,7 @@ export const NewMeal = ({mealOptions}: Props) => {
     const getIngredientsList = async () => {
         try {
             const response = await useApi("/api/ingredients/get-ingredients", {
-                email: "baczkiewicz.dawid22@gmail.com"
+                email: user.email
             })
 
             return response

@@ -1,14 +1,19 @@
 "use client"
 
-import {Separator} from "../../../../components/ui/separator";
+import {Separator} from "@/components/ui/separator";
 import {IngredientItem} from "@/app/protected/ingredients/components/ingredient-item";
 import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {useEffect, useState} from "react";
 import {useToast} from "@/hooks/use-toast";
-import {Toaster} from "../../../../components/ui/sonner";
+import {Toaster} from "@/components/ui/sonner";
+import {User} from "@supabase/auth-js";
 
-export const IngredientsList = () => {
+type Props = {
+    user: User
+}
+
+export const IngredientsList = ({user}: Props) => {
     const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -16,7 +21,7 @@ export const IngredientsList = () => {
         try {
             setIsLoading(true)
             const response = await useApi("/api/ingredients/get-ingredients", {
-                email: "baczkiewicz.dawid22@gmail.com"
+                email: user.email
             })
 
             return response
@@ -51,6 +56,7 @@ export const IngredientsList = () => {
                                 name={ingredient.name}
                                 amount={ingredient.amount}
                                 type={ingredient.type}
+                                user={user}
                             />
                             <Separator/>
                         </div>

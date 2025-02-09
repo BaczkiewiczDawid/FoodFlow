@@ -1,22 +1,13 @@
-import {createClient} from "@/utils/supabase/server";
-import {redirect} from "next/navigation";
 import {MacroChart} from "@/components/chart-components/macro-chart";
 import {MealCard} from "@/components/meal-card";
 import {getMealsForDay} from "@/app/protected/calendar/actions";
 import {getDates} from "@/hooks/get-dates";
 import {calculateMacro} from "@/hooks/calculate-macro";
 import {getBMR} from "@/app/protected/actions";
+import {getAuthUser} from "@/helpers/get-auth-user";
 
 export default async function ProtectedPage() {
-    const supabase = await createClient();
-
-    const {
-        data: {user},
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-        return redirect("/sign-in");
-    }
+    const user = await getAuthUser()
 
     const {today} = getDates()
 
