@@ -104,9 +104,10 @@ export const NewMeal = ({mealOptions, user}: Props) => {
 
         setIsOpen(false)
         const res = await addNewMealData(selectedIngredients, mealType, selectedDate)
-        fetchMeals()
 
         useToast(res.status, "add", "ingredient(s)")
+
+        fetchMeals()
     }
 
     return (
