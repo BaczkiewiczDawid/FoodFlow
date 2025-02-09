@@ -127,19 +127,19 @@ export default async function ProtectedPage() {
                     <MacroChart data={fatData} name={"Fat"}/>
                 </div>
             </div>
-            <div className={"lg:w-1/2"}>
-                <h2 className={"font-bold text-xl"}>Your next meal</h2>
-                <div className={"flex flex-col gap-y-4 lg:mt-8"}>
-                    {meals.map((meal) => {
-                        return (
-                            <MealCard key={meal.id} id={meal.id} name={meal.name} ingredients={meal.ingredients}
-                                      macros={meal.macros}/>
-                        )
-                    })}
-                    <div className={"w-full bg-gray-700 rounded"}></div>
-                    <div className={"w-full bg-gray-700 rounded"}></div>
-                </div>
-            </div>
+            {/*<div className={"lg:w-1/2"}>*/}
+            {/*    <h2 className={"font-bold text-xl"}>Your next meal</h2>*/}
+            {/*    <div className={"flex flex-col gap-y-4 lg:mt-8"}>*/}
+            {/*        {meals.map((meal) => {*/}
+            {/*            return (*/}
+            {/*                <MealCard key={meal.id} id={meal.id} name={meal.name} ingredients={meal.ingredients}*/}
+            {/*                          macros={meal.macros}/>*/}
+            {/*            )*/}
+            {/*        })}*/}
+            {/*        <div className={"w-full bg-gray-700 rounded"}></div>*/}
+            {/*        <div className={"w-full bg-gray-700 rounded"}></div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
     );
 }
