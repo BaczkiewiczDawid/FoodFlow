@@ -79,6 +79,11 @@ export const NewMeal = ({mealOptions}: Props) => {
         fetchData()
     }, [])
 
+    useEffect(() => {
+        setSelectedMeals([])
+        setSelectedIngredients([])
+    }, [isOpen]);
+
     const getMeals = async () => {
         return await getMealsForDay(selectedDate, "a6801067-87a6-406b-a73a-94e26e89f9b7")
     }

@@ -68,7 +68,7 @@ export const MealsList = ({mealType, mealData}: Props) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <Trash className={"w-4 h-4 text-white cursor-pointer"}
+                                    <Trash className={"w-4 h-4 text-foreground cursor-pointer items-center"}
                                            onClick={() => handleDelete(meal.name)}/>
                                 </div>
                             </div>
