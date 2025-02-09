@@ -1,6 +1,6 @@
 "use client"
 
-import {Button} from "../../../../components/ui/button"
+import {Button} from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -9,9 +9,9 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "../../../../components/ui/dialog"
-import {Input} from "../../../../components/ui/input"
-import {Label} from "../../../../components/ui/label"
+} from "@/components/ui/dialog"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
 import {
     Select,
     SelectContent,
@@ -19,23 +19,27 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from "../../../../components/ui/select";
+} from "@/components/ui/select";
 import {useState} from "react";
 import {useApi} from "@/helpers/useApi";
 import {useToast} from "@/hooks/use-toast";
-import {Toaster} from "../../../../components/ui/sonner";
+import {Toaster} from "@/components/ui/sonner";
 import {User} from "@supabase/auth-js";
+import {useIngredientsStore} from "@/app/context/ingredients";
+import {Ingredient} from "@/app/types/ingredient";
 
 type Props = {
     user: User
 }
 
-export const NewIngredient = ({ user }: Props) => {
+export const NewIngredient = ({user}: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
     const [quantity, setQuantity] = useState<number>(0);
     const [type, setType] = useState<string>("grammage");
     const [isLoading, setLoading] = useState<boolean>(false)
+    const ingredientsList = useIngredientsStore(state => state.ingredientsList)
+    const setIngredientsList = useIngredientsStore(state => state.setIngredientsList)
 
     const email = user.email
 
@@ -47,6 +51,15 @@ export const NewIngredient = ({ user }: Props) => {
         setLoading(true);
         try {
             const response = await fetchData();
+
+            setIngredientsList([
+                ...ingredientsList,
+                {
+                    name,
+                    amount: quantity,
+                    type: type as Ingredient["type"]
+                }
+            ]);
 
             useToast(response.status, "add", "ingredient");
 
@@ -103,7 +116,7 @@ export const NewIngredient = ({ user }: Props) => {
                                 className="flex-grow"
                                 onChange={(e) => setQuantity(parseInt(e.target.value))}
                             />
-                            <Select defaultValue={"piece"} onValueChange={(e) => setType(e)}>
+                            <Select defaultValue={"grammage"} onValueChange={(e) => setType(e)}>
                                 <SelectTrigger>
                                     <SelectValue/>
                                 </SelectTrigger>
@@ -125,7 +138,7 @@ export const NewIngredient = ({ user }: Props) => {
                     <Button onClick={addNewIngredient} type="button">Save changes</Button>
                 </DialogFooter>
             </DialogContent>
-            <Toaster />
+            <Toaster/>
         </Dialog>
     )
 }

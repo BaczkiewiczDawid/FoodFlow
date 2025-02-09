@@ -77,10 +77,10 @@ export const MealsView = ({initialState, limit}: Props) => {
         <div className={"flex h-[80%]"}>
             <div className={"mt-4 md:mt-12 flex flex-col"}>
                 <div className={"flex flex-col gap-y-4"}>
-                    {mealsList?.map((meal) => {
+                    {mealsList?.map((meal, index) => {
                         return (
                             <MealCard
-                                key={meal.id}
+                                key={index}
                                 id={meal.id}
                                 ingredients={meal?.ingredients?.map((ingredient: Ingredient) => ingredient?.name)}
                                 macros={{

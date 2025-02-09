@@ -2,19 +2,21 @@
 
 import {Separator} from "@/components/ui/separator";
 import {IngredientItem} from "@/app/protected/ingredients/components/ingredient-item";
-import {Ingredient} from "@/app/types/ingredient";
 import {useApi} from "@/helpers/useApi";
 import {useEffect, useState} from "react";
 import {useToast} from "@/hooks/use-toast";
 import {Toaster} from "@/components/ui/sonner";
 import {User} from "@supabase/auth-js";
+import {Loader} from "@/components/loader";
+import {useIngredientsStore} from "@/app/context/ingredients";
 
 type Props = {
     user: User
 }
 
 export const IngredientsList = ({user}: Props) => {
-    const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([])
+    const ingredientsList = useIngredientsStore(state => state.ingredientsList)
+    const setIngredientsList = useIngredientsStore(state => state.setIngredientsList)
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const getIngredientsList = async () => {
@@ -48,6 +50,8 @@ export const IngredientsList = ({user}: Props) => {
     return (
         <>
             <p className={"font-bold mt-8"}>Ingredients</p>
+            {isLoading && <Loader type={"list"}/>}
+            {!ingredientsList.length && !isLoading && <p className={"mt-4"}>No ingredients added</p>}
             <ul className={"list-none ml-4 mt-4"}>
                 {ingredientsList.map((ingredient, index) => {
                     return (
