@@ -117,7 +117,7 @@ export default async function ProtectedPage() {
     return (
         <div className="flex-1 w-full flex flex-col gap-12 lg:flex-row lg:justify-between lg:p-12">
             <div className={"lg:w-1/2"}>
-                <h1 className={"font-normal text-2xl lg:text-xl"}>Hello, <p className={"font-bold"}>{user.email}</p>
+                <h1 className={"font-normal text-2xl lg:text-xl"}>Hello, <p className={"font-bold break-words"}>{user.email}</p>
                 </h1>
                 <p className={"mt-4 lg:mt-12"}>Today, You've eaten</p>
                 <div className={"grid grid-cols-2 gap-x-4 gap-y-8 w-[90%] lg:grid-cols-4 mt-4"}>
