@@ -1,10 +1,8 @@
-import {Ingredient} from "@/app/types/ingredient";
 import {firstLetterToUpperCase} from "@/helpers/first-letter-to-upper-case";
 import {MealData} from "@/app/types/meal-data";
 import {Trash} from "lucide-react";
 import {deleteIngredient} from "@/app/protected/calendar/actions";
 import {useCalendarStore} from "@/app/context/calendar";
-import {useState} from "react";
 
 type Props = {
     mealType: string,
@@ -59,8 +57,8 @@ export const MealsList = ({mealType, mealData}: Props) => {
                 <div className={"flex flex-col p-4 gap-y-4 w-full"}>
                     {mealData?.map((meal, index) => {
                         return (
-                            <div className={"flex justify-between items-center"}>
-                                <div key={index} className={"w-full pr-4"}>
+                            <div className={"flex justify-between items-center"} key={index}>
+                                <div className={"w-full pr-4"}>
                                     <p>{firstLetterToUpperCase(meal.name)}</p>
                                     <div className={"flex justify-between font-light text-sm w-4/5"}>
                                         <p>{meal.kcal.toFixed(0)} Kcal</p>
@@ -70,7 +68,8 @@ export const MealsList = ({mealType, mealData}: Props) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <Trash className={"w-4 h-4 text-white cursor-pointer"} onClick={() => handleDelete(meal.name)}/>
+                                    <Trash className={"w-4 h-4 text-white cursor-pointer"}
+                                           onClick={() => handleDelete(meal.name)}/>
                                 </div>
                             </div>
                         )

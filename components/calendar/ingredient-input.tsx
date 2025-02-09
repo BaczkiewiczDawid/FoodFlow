@@ -76,7 +76,7 @@ export const IngredientInput = ({index, setValue, inputType, options, hideIndex}
                     <div className={"flex items-center gap-x-4"}>
                         <Input type={"number"} defaultValue={amount}
                                onChange={(e) => setAmount(Number(e.target.value))}/>
-                        <Select defaultValue={"piece"} onValueChange={(e) => setType(e as IngredientType)}>
+                        <Select defaultValue={"grammage"} onValueChange={(e) => setType(e as IngredientType)}>
                             <SelectTrigger>
                                 <SelectValue placeholder={"Select type"}/>
                             </SelectTrigger>
